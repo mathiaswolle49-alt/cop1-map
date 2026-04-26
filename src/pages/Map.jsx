@@ -434,57 +434,63 @@ box-shadow:0 2px 6px rgba(0,0,0,0.25);
 
         {filtered.map((aid, i) => (
   <Marker
-    key={i}
-    position={aid.pos}
-    icon={L.divIcon({
-  className: "",
-  iconSize: [40, 56],
-  iconAnchor: [20, 56],
-  html: `
-    <div style="
-      position:relative;
-      width:40px;
-      height:56px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    ">
-
+  key={i}
+  position={aid.pos}
+  icon={L.divIcon({
+    className: "",
+    iconSize: [40, 56],
+    iconAnchor: [20, 56],
+    html: `
       <div style="
-        position:absolute;
+        position:relative;
         width:40px;
-        height:40px;
-        background:white;
-        border-radius:50% 50% 50% 0;
-        transform:rotate(-45deg);
-        box-shadow:0 10px 25px rgba(0,0,0,0.35);
-        bottom:8px;
-      "></div>
-
-      <div style="
-        position:absolute;
-        width:26px;
-        height:26px;
-        background:white;
-        border-radius:50%;
+        height:56px;
         display:flex;
         align-items:center;
         justify-content:center;
-        font-size:16px;
-        z-index:2;
-        bottom:16px;
-        box-shadow:0 4px 10px rgba(0,0,0,0.2);
       ">
-        ${icons[aid.category]}
-        
-      </div>
-    </div>
-  `
-})}
 
-  >
-    <Popup>{aid.name}</Popup>
-  </Marker>
+        <div style="
+          position:absolute;
+          width:40px;
+          height:40px;
+          background:white;
+          border-radius:50% 50% 50% 0;
+          transform:rotate(-45deg);
+          box-shadow:0 10px 25px rgba(0,0,0,0.35);
+          bottom:8px;
+        "></div>
+
+        <div style="
+          position:absolute;
+          width:26px;
+          height:26px;
+          background:white;
+          border-radius:50%;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size:16px;
+          z-index:2;
+          bottom:16px;
+          box-shadow:0 4px 10px rgba(0,0,0,0.2);
+        ">
+          ${icons[aid.category]}
+        </div>
+
+      </div>
+    `
+  })}
+
+  eventHandlers={{
+    click: () => {
+      setSelected(aid.pos)
+      setSelectedPlace(aid)
+      setSheetHeight(SNAP_MID)
+    }
+  }}
+>
+</Marker>
   
 ))}
       </MapContainer>
