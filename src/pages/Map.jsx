@@ -22,6 +22,15 @@ function Recenter({ position, heading }) {
   return null
 }
 
+function MapClickHandler({ onClick }) {
+  useMapEvents({
+    click: () => {
+      onClick()
+    }
+  })
+  return null
+}
+
 function Map({ user, showAdminButton }) {
 
   const angers = [47.4784, -0.5631]
@@ -381,10 +390,11 @@ function stopDrag(){
   style={{ height: "100%", width: "100%" }}
 
   whenCreated={(map) => {
-    map.on("click", () => {
-      setSelectedPlace(null)
-    })
-  }}
+  map.on("click", () => {
+    setSelectedPlace(null)
+    setSheetHeight(SNAP_MID)
+  })
+}}
 >
         <Recenter
   position={selected}
