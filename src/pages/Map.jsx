@@ -10,10 +10,10 @@ function Recenter({ position, heading }) {
 
   useEffect(() => {
 
-    map.setView(position, map.getZoom(), {
-      animate:true,
-      duration:0.5
-    })
+    map.setView(position, 16, {
+  animate:true,
+  duration:0.5
+})
 
     map.setBearing?.(heading)
 
@@ -40,6 +40,7 @@ const [sheetHeight,setSheetHeight] = useState(SNAP_MID)
   const [suggestions, setSuggestions] = useState([])
   const [newCategory, setNewCategory] = useState("Aides & précarité")
   const [heading, setHeading] = useState(0)
+  const [selectedPlace, setSelectedPlace] = useState(null)
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -253,14 +254,6 @@ function openRoute(lat, lng){
       setHeading(pos.coords.heading)
     }
 
-    const speed = pos.coords.speed
-
-if(speed && speed > 1.2){
-  mapZoom = 17
-}else{
-  mapZoom = 15
-}
-
     // ⭐ suivi smooth
     setSelected(prev => {
 
@@ -268,7 +261,7 @@ if(speed && speed > 1.2){
         Math.pow(prev[0]-p[0],2) +
         Math.pow(prev[1]-p[1],2)
       )
-
+ 
       if(d < 0.00005) return prev
 
       return p
@@ -382,11 +375,17 @@ function stopDrag(){
     <div style={{ height: "100vh", position: "relative" }}>
 
       <MapContainer
-        center={selected}
-        zoom={13}
-        zoomControl={false}
-        style={{ height: "100%", width: "100%" }}
-      >
+  center={selected}
+  zoom={13}
+  zoomControl={false}
+  style={{ height: "100%", width: "100%" }}
+
+  whenCreated={(map) => {
+    map.on("click", () => {
+      setSelectedPlace(null)
+    })
+  }}
+>
         <Recenter
   position={selected}
   heading={heading}
@@ -432,7 +431,7 @@ box-shadow:0 2px 6px rgba(0,0,0,0.25);
   <Popup>Vous êtes ici</Popup>
 </Marker>
 
-        {filtered.map((aid, i) => (
+        {(selectedPlace ? [selectedPlace] : filtered).map((aid, i) => (
   <Marker
   key={i}
   position={aid.pos}
@@ -483,12 +482,13 @@ box-shadow:0 2px 6px rgba(0,0,0,0.25);
   })}
 
   eventHandlers={{
-    click: () => {
-      setSelected(aid.pos)
-      setSelectedPlace(aid)
-      setSheetHeight(SNAP_MID)
-    }
-  }}
+  click: (e) => {
+    e.originalEvent.stopPropagation() // ⭐ IMPORTANT
+
+    setSelected(aid.pos)
+    setSelectedPlace(aid)
+  }
+}}
 >
 </Marker>
   
@@ -823,10 +823,14 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       padding:"0 14px 20px 14px"
     }}
   >
-    {filtered.map((aid, i) => (
+    {(selectedPlace ? [selectedPlace] : filtered).map((aid, i) => (
       <div
         key={i}
-        onClick={() => setSelected(aid.pos)}
+        onClick={() => {
+  setSelected(aid.pos)
+  setSelectedPlace(aid)
+  setSheetHeight(SNAP_MAX)
+}}
         style={{
           background:"rgba(255,255,255,0.9)",
           backdropFilter:"blur(10px)",
@@ -844,7 +848,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
           fontWeight:600,
           letterSpacing:-0.2
         }}>
-          {aid.name}
+          {aid.name} {selectedPlace ? "🔥" : ""}
         </h3>
 
         <p style={{
