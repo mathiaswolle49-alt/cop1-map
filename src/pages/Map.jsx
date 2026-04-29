@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { supabase } from "../supabase"
-import { useMapEvents } from "react-leaflet"
+
 
 function Recenter({ position, heading }) {
 
@@ -907,91 +907,6 @@ Itinéraire
       </div>
     ))}
   </div>
-
-</div>
-
-
-{selectedPlace && (
-  <div style={{
-    position:"absolute",
-    bottom:0,
-    left:0,
-    right:0,
-    height:"80%",
-    background:"white",
-    zIndex:4000,
-    borderTopLeftRadius:30,
-    borderTopRightRadius:30,
-    padding:20,
-    overflowY:"auto",
-    boxShadow:"0 -10px 40px rgba(0,0,0,0.2)"
-  }}>
-
-    {/* bouton fermer */}
-    <div
-      onClick={() => setSelectedPlace(null)}
-      style={{
-        width:40,
-        height:5,
-        background:"#ccc",
-        borderRadius:999,
-        margin:"0 auto 15px",
-        cursor:"pointer"
-      }}
-    />
-
-    <h2 style={{margin:0, fontSize:22}}>
-  {selectedPlace.name} 🔥
-</h2>
-
-<p style={{color:"#666", marginTop:4}}>
-  {selectedPlace.category}
-</p>
-
-<div style={{marginTop:15}}>
-
-  <p>📍 {selectedPlace.lat}, {selectedPlace.lng}</p>
-
-  <p>💰 🟢 Gratuit</p>
-
-  <p>🆔 Aucun justificatif</p>
-
-  <p>⏰ Ouvert aujourd’hui</p>
-
-  <p>⭐ Équipe super sympa</p>
-
-</div>
-
-<div style={{display:"flex", gap:10, marginTop:20}}>
-
-  <button
-    onClick={() => openRoute(selectedPlace.lat, selectedPlace.lng)}
-    style={{
-      flex:1,
-      padding:"12px",
-      borderRadius:14,
-      border:"none",
-      background:"#1a73e8",
-      color:"white",
-      fontWeight:600
-    }}
-  >
-    Itinéraire
-  </button>
-
-  <button
-    style={{
-      flex:1,
-      padding:"12px",
-      borderRadius:14,
-      border:"none",
-      background:"#06c167",
-      color:"white",
-      fontWeight:600
-    }}
-  >
-    Appeler
-  </button>
 
 </div>
 </div>
