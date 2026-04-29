@@ -940,36 +940,60 @@ Itinéraire
       }}
     />
 
-    <h2 style={{margin:0}}>
-      {selectedPlace.name}
-    </h2>
+    <h2 style={{margin:0, fontSize:22}}>
+  {selectedPlace.name} 🔥
+</h2>
 
-    <p style={{color:"#666"}}>
-      {selectedPlace.category}
-    </p>
+<p style={{color:"#666", marginTop:4}}>
+  {selectedPlace.category}
+</p>
 
-    <p>
-      📍 {selectedPlace.lat}, {selectedPlace.lng}
-    </p>
+<div style={{marginTop:15}}>
 
-    <button
-      onClick={() => openRoute(selectedPlace.lat, selectedPlace.lng)}
-      style={{
-        marginTop:10,
-        padding:"10px 14px",
-        borderRadius:12,
-        border:"none",
-        background:"#1a73e8",
-        color:"white",
-        fontWeight:600,
-        cursor:"pointer"
-      }}
-    >
-      Itinéraire
-    </button>
+  <p>📍 {selectedPlace.lat}, {selectedPlace.lng}</p>
 
-  </div>
-)}
+  <p>💰 🟢 Gratuit</p>
+
+  <p>🆔 Aucun justificatif</p>
+
+  <p>⏰ Ouvert aujourd’hui</p>
+
+  <p>⭐ Équipe super sympa</p>
+
+</div>
+
+<div style={{display:"flex", gap:10, marginTop:20}}>
+
+  <button
+    onClick={() => openRoute(selectedPlace.lat, selectedPlace.lng)}
+    style={{
+      flex:1,
+      padding:"12px",
+      borderRadius:14,
+      border:"none",
+      background:"#1a73e8",
+      color:"white",
+      fontWeight:600
+    }}
+  >
+    Itinéraire
+  </button>
+
+  <button
+    style={{
+      flex:1,
+      padding:"12px",
+      borderRadius:14,
+      border:"none",
+      background:"#06c167",
+      color:"white",
+      fontWeight:600
+    }}
+  >
+    Appeler
+  </button>
+
+</div>
 </div>
 )
 }
