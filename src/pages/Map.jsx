@@ -910,6 +910,7 @@ Itinéraire
 
 </div>
 
+
 {selectedPlace && (
   <div style={{
     position:"absolute",
