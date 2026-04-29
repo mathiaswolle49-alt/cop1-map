@@ -401,6 +401,13 @@ function stopDrag(){
   heading={heading}
 />
 
+ <MapClickHandler
+  onClick={() => {
+    setSelectedPlace(null)
+    setSheetHeight(SNAP_MID)
+  }}
+/>
+
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         <Marker
