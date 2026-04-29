@@ -909,6 +909,66 @@ Itinéraire
   </div>
 
 </div>
+
+{selectedPlace && (
+  <div style={{
+    position:"absolute",
+    bottom:0,
+    left:0,
+    right:0,
+    height:"80%",
+    background:"white",
+    zIndex:4000,
+    borderTopLeftRadius:30,
+    borderTopRightRadius:30,
+    padding:20,
+    overflowY:"auto",
+    boxShadow:"0 -10px 40px rgba(0,0,0,0.2)"
+  }}>
+
+    {/* bouton fermer */}
+    <div
+      onClick={() => setSelectedPlace(null)}
+      style={{
+        width:40,
+        height:5,
+        background:"#ccc",
+        borderRadius:999,
+        margin:"0 auto 15px",
+        cursor:"pointer"
+      }}
+    />
+
+    <h2 style={{margin:0}}>
+      {selectedPlace.name}
+    </h2>
+
+    <p style={{color:"#666"}}>
+      {selectedPlace.category}
+    </p>
+
+    <p>
+      📍 {selectedPlace.lat}, {selectedPlace.lng}
+    </p>
+
+    <button
+      onClick={() => openRoute(selectedPlace.lat, selectedPlace.lng)}
+      style={{
+        marginTop:10,
+        padding:"10px 14px",
+        borderRadius:12,
+        border:"none",
+        background:"#1a73e8",
+        color:"white",
+        fontWeight:600,
+        cursor:"pointer"
+      }}
+    >
+      Itinéraire
+    </button>
+
+  </div>
+)}
 </div>
 )
 }
