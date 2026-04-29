@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
 import { supabase } from "../supabase"
+import { useMapEvents } from "react-leaflet"
 
 function Recenter({ position, heading }) {
 
@@ -25,6 +26,7 @@ function Recenter({ position, heading }) {
 function MapClickHandler({ onClick }) {
   useMapEvents({
     click: () => {
+      console.log("CLICK MAP") // ⭐ TEST
       onClick()
     }
   })
