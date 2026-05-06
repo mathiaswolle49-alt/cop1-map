@@ -911,30 +911,74 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 }}
   >
 
+{/* ⭐ poignée iphone */}
+    <div
+      style={{
+        width:42,
+        height:5,
+        background:"rgba(0,0,0,0.18)",
+        borderRadius:999,
+        margin:"0 auto 18px auto"
+      }}
+    />
+
     <h2>{openedPlace.name}</h2>
 
     <p>{openedPlace.category}</p>
 
-    <p>{openedPlace.distance}</p>
+    <p style={{
+  color:"#06c167",
+  fontWeight:700,
+  fontSize:15
+}}>
+  📍 {openedPlace.distance}
+</p>
 
-    <button
-      onClick={() =>
-        openRoute(
-          openedPlace.pos[0],
-          openedPlace.pos[1]
-        )
-      }
-    >
-      Itinéraire
-    </button>
+    <div style={{
+  display:"flex",
+  gap:12,
+  marginTop:24
+}}>
 
-    <button
-      onClick={() => {
-        setOpenedPlace(null)
-      }}
-    >
-      Retour
-    </button>
+  <button
+    onClick={() =>
+      openRoute(
+        openedPlace.pos[0],
+        openedPlace.pos[1]
+      )
+    }
+    style={{
+      flex:1,
+      padding:"14px",
+      borderRadius:18,
+      border:"none",
+      background:"#1a73e8",
+      color:"white",
+      fontWeight:700,
+      fontSize:15,
+      boxShadow:"0 10px 25px rgba(26,115,232,0.35)"
+    }}
+  >
+    🧭 Itinéraire
+  </button>
+
+  <button
+    onClick={() => {
+      setOpenedPlace(null)
+    }}
+    style={{
+      padding:"14px 18px",
+      borderRadius:18,
+      border:"none",
+      background:"rgba(255,255,255,0.8)",
+      fontWeight:700,
+      boxShadow:"0 6px 18px rgba(0,0,0,0.08)"
+    }}
+  >
+    Fermer
+  </button>
+
+</div>
 
   </div>
 )}
