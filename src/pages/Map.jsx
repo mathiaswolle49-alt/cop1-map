@@ -42,9 +42,9 @@ function Map({ user, showAdminButton }) {
   const [filter, setFilter] = useState("Tous")
   const [search, setSearch] = useState("")
   const SNAP_MIN = 110
-const SNAP_MID = window.innerHeight * 0.35
-const SNAP_MAX = window.innerHeight - 40
-const [sheetHeight,setSheetHeight] = useState(SNAP_MID)
+  const SNAP_MID = window.innerHeight * 0.35
+  const SNAP_MAX = window.innerHeight - 40
+  const [sheetHeight,setSheetHeight] = useState(SNAP_MID)
   const [dragging,setDragging] = useState(false)
   const [places, setPlaces] = useState([])
   const [newPlace, setNewPlace] = useState("")
@@ -52,6 +52,7 @@ const [sheetHeight,setSheetHeight] = useState(SNAP_MID)
   const [newCategory, setNewCategory] = useState("Aides & précarité")
   const [heading, setHeading] = useState(0)
   const [selectedPlace, setSelectedPlace] = useState(null)
+  const [openedPlace, setOpenedPlace] = useState(null)
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -876,10 +877,19 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
     <div
       key={i}
       onClick={() => {
-        setSelected(aid.pos)
-        setSelectedPlace(aid)
-        setSheetHeight(SNAP_MAX)
-      }}
+
+  // ⭐ si déjà sélectionné
+  if(selectedPlace?.name === aid.name){
+    setOpenedPlace(aid)
+    return
+  }
+
+  // ⭐ sinon sélection normale
+  setSelected(aid.pos)
+  setSelectedPlace(aid)
+  setSheetHeight(SNAP_MAX)
+
+}}
       style={{
         background:"white",
         padding:"15px",
