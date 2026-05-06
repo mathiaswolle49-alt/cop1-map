@@ -829,68 +829,32 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 />
 
   {/* CONTENU SCROLL */}
-  <div
-    style={{
-      overflowY:"auto",
-      height:"calc(100% - 40px)",
-      padding:"0 14px 20px 14px"
-    }}
-  >
-    {selectedPlace ? (
+<div
+  style={{
+    overflowY:"auto",
+    height:"calc(100% - 40px)",
+    padding:"0 14px 20px 14px"
+  }}
+>
 
-  // ⭐ FICHE
-  <div
-    style={{
-      background:"white",
-      padding:"20px",
-      borderRadius:"20px"
-    }}
-  >
-    <h2>{selectedPlace.name} 🔥</h2>
+  {(selectedPlace ? [selectedPlace] : filtered).map((aid, i) => (
 
-    <p>{selectedPlace.category}</p>
-
-    <p>{selectedPlace.distance}</p>
-
-    <button
-      onClick={() =>
-        openRoute(selectedPlace.pos[0], selectedPlace.pos[1])
-      }
-    >
-      Itinéraire
-    </button>
-
-    <button
-      onClick={() => {
-        setSelectedPlace(null)
-        setSheetHeight(SNAP_MID)
-      }}
-    >
-      Retour
-    </button>
-  </div>
-
-) : (
-
-  // ⭐ LISTE
-  filtered.map((aid, i) => (
     <div
       key={i}
       onClick={() => {
 
-  // ⭐ si déjà sélectionné
-  if(selectedPlace?.name === aid.name){
-  console.log("OPEN")
-  setOpenedPlace(aid)
-  return
-}
+        // ⭐ ouvre la vraie fiche
+        if(selectedPlace){
+          setOpenedPlace(aid)
+          return
+        }
 
-  // ⭐ sinon sélection normale
-  setSelected(aid.pos)
-  setSelectedPlace(aid)
-  setSheetHeight(SNAP_MAX)
+        // ⭐ sélection normale
+        setSelected(aid.pos)
+        setSelectedPlace(aid)
+        setSheetHeight(SNAP_MAX)
 
-}}
+      }}
       style={{
         background:"white",
         padding:"15px",
@@ -898,20 +862,26 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
         borderRadius:"15px"
       }}
     >
-      <h3>{aid.name}</h3>
-      <p>{aid.category}</p>
-      <p>{aid.distance}</p>
-    </div>
-  ))
 
-)}
-  </div>
+      <h3>{aid.name}</h3>
+
+      <p>{aid.category}</p>
+
+      <p>{aid.distance}</p>
+
+    </div>
+
+  ))}
 
 </div>
+
+</div>
+
+{/* ⭐ VRAIE FICHE */}
 {openedPlace && (
   <div
     style={{
-      position:"absolute",
+      position:"fixed",
       bottom:0,
       left:0,
       right:0,
@@ -931,15 +901,27 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
     <p>{openedPlace.distance}</p>
 
     <button
+      onClick={() =>
+        openRoute(
+          openedPlace.pos[0],
+          openedPlace.pos[1]
+        )
+      }
+    >
+      Itinéraire
+    </button>
+
+    <button
       onClick={() => {
         setOpenedPlace(null)
       }}
     >
-      Fermer
+      Retour
     </button>
 
   </div>
 )}
+
 </div>
 )
 }
