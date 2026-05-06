@@ -881,17 +881,34 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 {openedPlace && (
   <div
     style={{
-      position:"fixed",
-      bottom:0,
-      left:0,
-      right:0,
-      height:"75%",
-      background:"white",
-      zIndex:5000,
-      borderTopLeftRadius:30,
-      borderTopRightRadius:30,
-      padding:20
-    }}
+  position:"fixed",
+  bottom:0,
+  left:0,
+  right:0,
+  height:"78%",
+
+  background:"rgba(255,255,255,0.72)",
+  backdropFilter:"blur(30px) saturate(180%)",
+  WebkitBackdropFilter:"blur(30px)",
+
+  borderTopLeftRadius:34,
+  borderTopRightRadius:34,
+
+  border:"1px solid rgba(255,255,255,0.45)",
+
+  boxShadow:`
+    0 -20px 60px rgba(0,0,0,0.25),
+    inset 0 1px rgba(255,255,255,0.7)
+  `,
+
+  zIndex:5000,
+
+  padding:"22px",
+
+  overflowY:"auto",
+
+  animation:"sheetUp 0.22s cubic-bezier(.22,1,.36,1)"
+}}
   >
 
     <h2>{openedPlace.name}</h2>
