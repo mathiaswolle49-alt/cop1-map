@@ -907,6 +907,38 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
   </div>
 
 </div>
+{openedPlace && (
+  <div
+    style={{
+      position:"absolute",
+      bottom:0,
+      left:0,
+      right:0,
+      height:"75%",
+      background:"white",
+      zIndex:5000,
+      borderTopLeftRadius:30,
+      borderTopRightRadius:30,
+      padding:20
+    }}
+  >
+
+    <h2>{openedPlace.name}</h2>
+
+    <p>{openedPlace.category}</p>
+
+    <p>{openedPlace.distance}</p>
+
+    <button
+      onClick={() => {
+        setOpenedPlace(null)
+      }}
+    >
+      Fermer
+    </button>
+
+  </div>
+)}
 </div>
 )
 }
