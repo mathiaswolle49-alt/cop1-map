@@ -880,9 +880,10 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
   // ⭐ si déjà sélectionné
   if(selectedPlace?.name === aid.name){
-    setOpenedPlace(aid)
-    return
-  }
+  console.log("OPEN")
+  setOpenedPlace(aid)
+  return
+}
 
   // ⭐ sinon sélection normale
   setSelected(aid.pos)
