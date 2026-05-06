@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap, ZoomControl} from "react-leaflet"
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet"
 import { useState, useEffect } from "react"
 import L from "leaflet"
 import "leaflet/dist/leaflet.css"
@@ -390,13 +390,6 @@ function stopDrag(){
   zoom={13}
   zoomControl={false}
   style={{ height: "100%", width: "100%" }}
-
-  whenCreated={(map) => {
-  map.on("click", () => {
-    setSelectedPlace(null)
-    setSheetHeight(SNAP_MID)
-  })
-}}
 >
         <Recenter
   position={selected}
@@ -842,70 +835,65 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       padding:"0 14px 20px 14px"
     }}
   >
-    {(selectedPlace ? [selectedPlace] : filtered).map((aid, i) => (
-      <div
-        key={i}
-        onClick={() => {
-  setSelected(aid.pos)
-  setSelectedPlace(aid)
-  setSheetHeight(SNAP_MAX)
-}}
-        style={{
-          background:"rgba(255,255,255,0.9)",
-          backdropFilter:"blur(10px)",
-          padding:"18px",
-          marginBottom:"14px",
-          borderRadius:"22px",
-          boxShadow:"0 10px 30px rgba(0,0,0,0.12)",
-          cursor:"pointer",
-          border:"1px solid rgba(255,255,255,0.6)"
-        }}
-      >
-        <h3 style={{
-          margin:0,
-          fontSize:18,
-          fontWeight:600,
-          letterSpacing:-0.2
-        }}>
-          {aid.name} {selectedPlace ? "🔥" : ""}
-        </h3>
+    {selectedPlace ? (
 
-        <p style={{
-          margin:"6px 0",
-          fontSize:14,
-          color:"#555"
-        }}>
-          {aid.category}
-        </p>
+  // ⭐ FICHE
+  <div
+    style={{
+      background:"white",
+      padding:"20px",
+      borderRadius:"20px"
+    }}
+  >
+    <h2>{selectedPlace.name} 🔥</h2>
 
-        <p style={{
-          margin:0,
-          fontSize:14,
-          fontWeight:700,
-          color:"#06c167"
-        }}>
-          {aid.distance}
-        </p>
-        <button
-onClick={(e)=>{
-  e.stopPropagation()
-  openRoute(aid.pos[0], aid.pos[1])
-}}
-style={{
-marginTop:10,
-padding:"8px 14px",
-borderRadius:12,
-border:"none",
-background:"#1a73e8",
-color:"white",
-fontWeight:600,
-cursor:"pointer"
-}}
->
-Itinéraire
-</button>
-      </div>
-    ))}
+    <p>{selectedPlace.category}</p>
+
+    <p>{selectedPlace.distance}</p>
+
+    <button
+      onClick={() =>
+        openRoute(selectedPlace.pos[0], selectedPlace.pos[1])
+      }
+    >
+      Itinéraire
+    </button>
+
+    <button
+      onClick={() => {
+        setSelectedPlace(null)
+        setSheetHeight(SNAP_MID)
+      }}
+    >
+      Retour
+    </button>
+  </div>
+
+) : (
+
+  // ⭐ LISTE
+  filtered.map((aid, i) => (
+    <div
+      key={i}
+      onClick={() => {
+        setSelected(aid.pos)
+        setSelectedPlace(aid)
+        setSheetHeight(SNAP_MAX)
+      }}
+      style={{
+        background:"white",
+        padding:"15px",
+        marginBottom:"10px",
+        borderRadius:"15px"
+      }}
+    >
+      <h3>{aid.name}</h3>
+      <p>{aid.category}</p>
+      <p>{aid.distance}</p>
+    </div>
+  ))
+
+)}
   </div>
 
 </div>
