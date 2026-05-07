@@ -922,9 +922,28 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       }}
     />
 
-    <h2>{openedPlace.name}</h2>
+    <h2
+  style={{
+    margin:0,
+    fontSize:30,
+    fontWeight:800,
+    letterSpacing:-1.2,
+    lineHeight:1.05
+  }}
+>
+  {openedPlace.name}
+</h2>
 
-    <p>{openedPlace.category}</p>
+    <p
+  style={{
+    marginTop:8,
+    color:"#666",
+    fontSize:15,
+    fontWeight:500
+  }}
+>
+  {openedPlace.category}
+</p>
 
     <p style={{
   color:"#06c167",
@@ -939,6 +958,67 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
   gap:12,
   marginTop:24
 }}>
+
+  <div
+  style={{
+    marginTop:24,
+    display:"flex",
+    flexDirection:"column",
+    gap:14
+  }}
+>
+
+  <div
+    style={{
+      background:"rgba(255,255,255,0.7)",
+      padding:"14px",
+      borderRadius:18
+    }}
+  >
+    💰 {openedPlace.price || "🟢 Gratuit"}
+  </div>
+
+  <div
+    style={{
+      background:"rgba(255,255,255,0.7)",
+      padding:"14px",
+      borderRadius:18
+    }}
+  >
+    🆔 {openedPlace.justificatif || "Aucun justificatif"}
+  </div>
+
+  <div
+    style={{
+      background:"rgba(255,255,255,0.7)",
+      padding:"14px",
+      borderRadius:18
+    }}
+  >
+    ⏰ {openedPlace.horaires || "Horaires non renseignés"}
+  </div>
+
+  <div
+    style={{
+      background:"rgba(255,255,255,0.7)",
+      padding:"14px",
+      borderRadius:18
+    }}
+  >
+    💬 {openedPlace.description || "Pas de description"}
+  </div>
+
+  <div
+    style={{
+      background:"rgba(255,255,255,0.7)",
+      padding:"14px",
+      borderRadius:18
+    }}
+  >
+    ✨ {openedPlace.plus || "Lieu recommandé"}
+  </div>
+
+</div>
 
   <button
     onClick={() =>
