@@ -922,6 +922,28 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       }}
     />
 
+<div
+  style={{
+    height:260,
+    borderRadius:28,
+    overflow:"hidden",
+    marginBottom:20,
+    position:"relative"
+  }}
+>
+
+  <img
+    src={openedPlace.image}
+    alt=""
+    style={{
+      width:"100%",
+      height:"100%",
+      objectFit:"cover"
+    }}
+  />
+
+</div>
+
     <h2
   style={{
     margin:0,
