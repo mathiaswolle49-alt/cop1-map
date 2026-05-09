@@ -1014,29 +1014,6 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
 </div>
 
-    <h2
-  style={{
-    margin:0,
-    fontSize:30,
-    fontWeight:800,
-    letterSpacing:-1.2,
-    lineHeight:1.05
-  }}
->
-  {openedPlace.name}
-</h2>
-
-    <p
-  style={{
-    marginTop:8,
-    color:"#666",
-    fontSize:15,
-    fontWeight:500
-  }}
->
-  {openedPlace.category}
-</p>
-
     <p style={{
   color:"#06c167",
   fontWeight:700,
@@ -1132,22 +1109,6 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
     }}
   >
     🧭 Itinéraire
-  </button>
-
-  <button
-    onClick={() => {
-      setOpenedPlace(null)
-    }}
-    style={{
-      padding:"14px 18px",
-      borderRadius:18,
-      border:"none",
-      background:"rgba(255,255,255,0.8)",
-      fontWeight:700,
-      boxShadow:"0 6px 18px rgba(0,0,0,0.08)"
-    }}
-  >
-    Fermer
   </button>
 
 </div>
