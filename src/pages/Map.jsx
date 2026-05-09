@@ -924,16 +924,20 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
 <div
   style={{
-    height:260,
-    borderRadius:28,
+    height:280,
+    borderRadius:30,
     overflow:"hidden",
-    marginBottom:20,
-    position:"relative"
+    position:"relative",
+    marginBottom:24
   }}
 >
 
+  {/* IMAGE */}
   <img
-    src={openedPlace.image}
+    src={
+      openedPlace.image ||
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1400"
+    }
     alt=""
     style={{
       width:"100%",
@@ -941,6 +945,72 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       objectFit:"cover"
     }}
   />
+
+  {/* DÉGRADÉ */}
+  <div
+    style={{
+      position:"absolute",
+      inset:0,
+      background:
+        "linear-gradient(to top, rgba(0,0,0,0.72), transparent 55%)"
+    }}
+  />
+
+  {/* BOUTON FERMER */}
+  <button
+    onClick={() => {
+      setOpenedPlace(null)
+    }}
+    style={{
+      position:"absolute",
+      top:16,
+      left:16,
+      width:42,
+      height:42,
+      borderRadius:"50%",
+      border:"none",
+      background:"rgba(255,255,255,0.82)",
+      backdropFilter:"blur(10px)",
+      fontSize:20,
+      fontWeight:700,
+      cursor:"pointer"
+    }}
+  >
+    ×
+  </button>
+
+  {/* INFOS SUR IMAGE */}
+  <div
+    style={{
+      position:"absolute",
+      left:20,
+      bottom:20,
+      color:"white"
+    }}
+  >
+
+    <h1
+      style={{
+        margin:0,
+        fontSize:32,
+        fontWeight:800,
+        letterSpacing:-1.2
+      }}
+    >
+      {openedPlace.name}
+    </h1>
+
+    <p
+      style={{
+        marginTop:6,
+        fontSize:15,
+        opacity:0.9
+      }}
+    >
+      {openedPlace.category}
+    </p>
+
+  </div>
 
 </div>
 
