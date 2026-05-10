@@ -907,7 +907,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
       overflowY:"auto",
 
-      animation:"sheetUp 0.22s cubic-bezier(.22,1,.36,1)"
+      animation:"sheetUp 0.42s cubic-bezier(.22,1,.36,1)"
     }}
   >
 
@@ -944,6 +944,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
           width:"100%",
           height:"100%",
           objectFit:"cover"
+          transform:"scale(1.02)"
         }}
       />
 
