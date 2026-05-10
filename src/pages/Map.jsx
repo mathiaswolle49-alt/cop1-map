@@ -852,7 +852,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
         // ⭐ sélection normale
         setSelected(aid.pos)
         setSelectedPlace(aid)
-        setSheetHeight(SNAP_MAX)
+        setSheetHeight(SNAP_MID)
 
       }}
       style={{
@@ -1288,6 +1288,15 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
             openedPlace.pos[1]
           )
         }
+
+        onMouseEnter={(e)=>{
+  e.currentTarget.style.transform = "scale(1.03)"
+}}
+
+onMouseLeave={(e)=>{
+  e.currentTarget.style.transform = "scale(1)"
+}}
+
         style={{
           height:52,
           padding:"0 22px",
@@ -1303,7 +1312,8 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
           cursor:"pointer",
 
-          boxShadow:"0 10px 25px rgba(26,115,232,0.35)"
+          boxShadow:"0 10px 25px rgba(26,115,232,0.35)",
+          transition:"0.2s"
         }}
       >
         🧭 Itinéraire
