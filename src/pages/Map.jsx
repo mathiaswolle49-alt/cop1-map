@@ -881,37 +881,37 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 {openedPlace && (
   <div
     style={{
-  position:"fixed",
-  bottom:0,
-  left:0,
-  right:0,
-  height:"78%",
+      position:"fixed",
+      bottom:0,
+      left:0,
+      right:0,
+      height:"78%",
 
-  background:"rgba(255,255,255,0.72)",
-  backdropFilter:"blur(30px) saturate(180%)",
-  WebkitBackdropFilter:"blur(30px)",
+      background:"rgba(255,255,255,0.72)",
+      backdropFilter:"blur(30px) saturate(180%)",
+      WebkitBackdropFilter:"blur(30px)",
 
-  borderTopLeftRadius:34,
-  borderTopRightRadius:34,
+      borderTopLeftRadius:34,
+      borderTopRightRadius:34,
 
-  border:"1px solid rgba(255,255,255,0.45)",
+      border:"1px solid rgba(255,255,255,0.45)",
 
-  boxShadow:`
-    0 -20px 60px rgba(0,0,0,0.25),
-    inset 0 1px rgba(255,255,255,0.7)
-  `,
+      boxShadow:`
+        0 -20px 60px rgba(0,0,0,0.25),
+        inset 0 1px rgba(255,255,255,0.7)
+      `,
 
-  zIndex:5000,
+      zIndex:5000,
 
-  padding:"22px",
+      padding:"22px",
 
-  overflowY:"auto",
+      overflowY:"auto",
 
-  animation:"sheetUp 0.22s cubic-bezier(.22,1,.36,1)"
-}}
+      animation:"sheetUp 0.22s cubic-bezier(.22,1,.36,1)"
+    }}
   >
 
-{/* ⭐ poignée iphone */}
+    {/* ⭐ poignée iphone */}
     <div
       style={{
         width:42,
@@ -922,196 +922,393 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       }}
     />
 
-<div
-  style={{
-    height:280,
-    borderRadius:30,
-    overflow:"hidden",
-    position:"relative",
-    marginBottom:24
-  }}
->
-
-  {/* IMAGE */}
-  <img
-    src={
-      openedPlace.image ||
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1400"
-    }
-    alt=""
-    style={{
-      width:"100%",
-      height:"100%",
-      objectFit:"cover"
-    }}
-  />
-
-  {/* DÉGRADÉ */}
-  <div
-    style={{
-      position:"absolute",
-      inset:0,
-      background:
-        "linear-gradient(to top, rgba(0,0,0,0.72), transparent 55%)"
-    }}
-  />
-
-  {/* BOUTON FERMER */}
-  <button
-    onClick={() => {
-      setOpenedPlace(null)
-    }}
-    style={{
-      position:"absolute",
-      top:16,
-      left:16,
-      width:42,
-      height:42,
-      borderRadius:"50%",
-      border:"none",
-      background:"rgba(255,255,255,0.82)",
-      backdropFilter:"blur(10px)",
-      fontSize:20,
-      fontWeight:700,
-      cursor:"pointer"
-    }}
-  >
-    ×
-  </button>
-
-  {/* INFOS SUR IMAGE */}
-  <div
-    style={{
-      position:"absolute",
-      left:20,
-      bottom:20,
-      color:"white"
-    }}
-  >
-
-    <h1
+    {/* HERO IMAGE */}
+    <div
       style={{
-        margin:0,
-        fontSize:32,
-        fontWeight:800,
-        letterSpacing:-1.2
+        height:300,
+        borderRadius:30,
+        overflow:"hidden",
+        position:"relative",
+        marginBottom:28
       }}
     >
-      {openedPlace.name}
-    </h1>
 
-    <p
+      {/* IMAGE */}
+      <img
+        src={
+          openedPlace.image ||
+          "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1400"
+        }
+        alt=""
+        style={{
+          width:"100%",
+          height:"100%",
+          objectFit:"cover"
+        }}
+      />
+
+      {/* DÉGRADÉ */}
+      <div
+        style={{
+          position:"absolute",
+          inset:0,
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.78), transparent 60%)"
+        }}
+      />
+
+      {/* BOUTON FERMER */}
+      <button
+        onClick={() => {
+          setOpenedPlace(null)
+        }}
+        style={{
+          position:"absolute",
+          top:16,
+          left:16,
+
+          width:42,
+          height:42,
+
+          borderRadius:"50%",
+          border:"none",
+
+          background:"rgba(255,255,255,0.82)",
+          backdropFilter:"blur(10px)",
+
+          fontSize:20,
+          fontWeight:700,
+
+          cursor:"pointer"
+        }}
+      >
+        ×
+      </button>
+
+      {/* INFOS SUR IMAGE */}
+      <div
+        style={{
+          position:"absolute",
+          left:20,
+          bottom:20,
+          color:"white"
+        }}
+      >
+
+        <div
+          style={{
+            display:"flex",
+            alignItems:"center",
+            gap:14
+          }}
+        >
+
+          {/* LOGO */}
+          <div
+            style={{
+              width:68,
+              height:68,
+
+              borderRadius:"50%",
+              overflow:"hidden",
+
+              border:"3px solid rgba(255,255,255,0.9)",
+
+              boxShadow:"0 10px 25px rgba(0,0,0,0.25)",
+
+              flexShrink:0
+            }}
+          >
+
+            <img
+              src={
+                openedPlace.logo ||
+                "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+              }
+              alt=""
+              style={{
+                width:"100%",
+                height:"100%",
+                objectFit:"cover"
+              }}
+            />
+
+          </div>
+
+          {/* TITRE */}
+          <div>
+
+            <h1
+              style={{
+                margin:0,
+                fontSize:30,
+                fontWeight:800,
+                letterSpacing:-1.2
+              }}
+            >
+              {openedPlace.name}
+            </h1>
+
+            <p
+              style={{
+                marginTop:4,
+                fontSize:15,
+                opacity:0.92
+              }}
+            >
+              {openedPlace.category}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* INFOS IMPORTANTES */}
+    <div
       style={{
-        marginTop:6,
-        fontSize:15,
-        opacity:0.9
+        display:"flex",
+        flexDirection:"column",
+        gap:12,
+        marginBottom:28
       }}
     >
-      {openedPlace.category}
-    </p>
 
-  </div>
+      <div
+        style={{
+          fontSize:16,
+          fontWeight:700
+        }}
+      >
+        🟢 Ouvert actuellement
+      </div>
 
-</div>
+      <div
+        style={{
+          fontSize:16
+        }}
+      >
+        🕒 {openedPlace.horaires || "Horaires non renseignés"}
+      </div>
 
-    <p style={{
-  color:"#06c167",
-  fontWeight:700,
-  fontSize:15
-}}>
-  📍 {openedPlace.distance}
-</p>
+      <div
+        style={{
+          fontSize:16
+        }}
+      >
+        💰 {openedPlace.price || "Gratuit"}
+      </div>
 
-    <div style={{
-  display:"flex",
-  gap:12,
-  marginTop:24
-}}>
+    </div>
 
-  <div
-  style={{
-    marginTop:24,
-    display:"flex",
-    flexDirection:"column",
-    gap:14
-  }}
->
+    {/* SÉPARATEUR */}
+    <div
+      style={{
+        height:1,
+        background:"rgba(0,0,0,0.08)",
+        marginBottom:24
+      }}
+    />
 
-  <div
-    style={{
-      background:"rgba(255,255,255,0.7)",
-      padding:"14px",
-      borderRadius:18
-    }}
-  >
-    💰 {openedPlace.price || "🟢 Gratuit"}
-  </div>
+    {/* ADRESSE */}
+    <div
+      style={{
+        marginBottom:24
+      }}
+    >
 
-  <div
-    style={{
-      background:"rgba(255,255,255,0.7)",
-      padding:"14px",
-      borderRadius:18
-    }}
-  >
-    🆔 {openedPlace.justificatif || "Aucun justificatif"}
-  </div>
+      <div
+        style={{
+          fontSize:13,
+          fontWeight:700,
+          color:"#777",
+          marginBottom:10,
+          letterSpacing:1
+        }}
+      >
+        ADRESSE
+      </div>
 
-  <div
-    style={{
-      background:"rgba(255,255,255,0.7)",
-      padding:"14px",
-      borderRadius:18
-    }}
-  >
-    ⏰ {openedPlace.horaires || "Horaires non renseignés"}
-  </div>
+      <div
+        style={{
+          fontSize:17,
+          lineHeight:1.5,
+          fontWeight:500
+        }}
+      >
+        📍 {openedPlace.address || "Adresse non renseignée"}
+      </div>
 
-  <div
-    style={{
-      background:"rgba(255,255,255,0.7)",
-      padding:"14px",
-      borderRadius:18
-    }}
-  >
-    💬 {openedPlace.description || "Pas de description"}
-  </div>
+    </div>
 
-  <div
-    style={{
-      background:"rgba(255,255,255,0.7)",
-      padding:"14px",
-      borderRadius:18
-    }}
-  >
-    ✨ {openedPlace.plus || "Lieu recommandé"}
-  </div>
+    {/* SÉPARATEUR */}
+    <div
+      style={{
+        height:1,
+        background:"rgba(0,0,0,0.08)",
+        marginBottom:24
+      }}
+    />
 
-</div>
+    {/* À PROPOS */}
+    <div
+      style={{
+        marginBottom:28
+      }}
+    >
 
-  <button
-    onClick={() =>
-      openRoute(
-        openedPlace.pos[0],
-        openedPlace.pos[1]
-      )
-    }
-    style={{
-      flex:1,
-      padding:"14px",
-      borderRadius:18,
-      border:"none",
-      background:"#1a73e8",
-      color:"white",
-      fontWeight:700,
-      fontSize:15,
-      boxShadow:"0 10px 25px rgba(26,115,232,0.35)"
-    }}
-  >
-    🧭 Itinéraire
-  </button>
+      <h2
+        style={{
+          fontSize:24,
+          marginBottom:14
+        }}
+      >
+        À propos
+      </h2>
 
-</div>
+      <p
+        style={{
+          lineHeight:1.7,
+          fontSize:16,
+          color:"#444"
+        }}
+      >
+        {openedPlace.description || "Pas de description"}
+      </p>
+
+    </div>
+
+    {/* INFOS COMPLÉMENTAIRES */}
+    <div
+      style={{
+        marginBottom:120
+      }}
+    >
+
+      <h2
+        style={{
+          fontSize:24,
+          marginBottom:18
+        }}
+      >
+        Informations utiles
+      </h2>
+
+      <div
+        style={{
+          display:"flex",
+          flexDirection:"column",
+          gap:14
+        }}
+      >
+
+        <div
+          style={{
+            background:"rgba(255,255,255,0.55)",
+            padding:"16px",
+            borderRadius:20
+          }}
+        >
+          🆔 {openedPlace.justificatif || "Aucun justificatif"}
+        </div>
+
+        <div
+          style={{
+            background:"rgba(255,255,255,0.55)",
+            padding:"16px",
+            borderRadius:20
+          }}
+        >
+          ✨ {openedPlace.plus || "Lieu recommandé"}
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* STICKY BOTTOM BAR */}
+    <div
+      style={{
+        position:"sticky",
+        bottom:-22,
+
+        marginLeft:-22,
+        marginRight:-22,
+        marginBottom:-22,
+
+        padding:"18px 22px",
+
+        background:"rgba(255,255,255,0.82)",
+        backdropFilter:"blur(20px)",
+        WebkitBackdropFilter:"blur(20px)",
+
+        borderTop:"1px solid rgba(255,255,255,0.6)",
+
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"space-between",
+        gap:14
+      }}
+    >
+
+      {/* ÉTAT */}
+      <div>
+
+        <div
+          style={{
+            color:"#06c167",
+            fontWeight:800,
+            fontSize:15
+          }}
+        >
+          🟢 Ouvert actuellement
+        </div>
+
+        <div
+          style={{
+            color:"#666",
+            fontSize:13,
+            marginTop:2
+          }}
+        >
+          Jusqu’à 20h00
+        </div>
+
+      </div>
+
+      {/* BOUTON */}
+      <button
+        onClick={() =>
+          openRoute(
+            openedPlace.pos[0],
+            openedPlace.pos[1]
+          )
+        }
+        style={{
+          height:52,
+          padding:"0 22px",
+
+          border:"none",
+          borderRadius:18,
+
+          background:"#1a73e8",
+          color:"white",
+
+          fontSize:15,
+          fontWeight:700,
+
+          cursor:"pointer",
+
+          boxShadow:"0 10px 25px rgba(26,115,232,0.35)"
+        }}
+      >
+        🧭 Itinéraire
+      </button>
+
+    </div>
 
   </div>
 )}
