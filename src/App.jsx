@@ -126,7 +126,8 @@ width:"100%",
 padding:10,
 marginBottom:10,
 borderRadius:10,
-border:"1px solid #ddd"
+border:"1px solid #ddd",
+boxSizing:"border-box"
 }}
 />
 
@@ -140,7 +141,8 @@ width:"100%",
 padding:10,
 marginBottom:10,
 borderRadius:10,
-border:"1px solid #ddd"
+border:"1px solid #ddd",
+boxSizing:"border-box"
 }}
 />
 
