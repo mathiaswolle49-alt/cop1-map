@@ -943,7 +943,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
         style={{
           width:"100%",
           height:"100%",
-          objectFit:"cover"
+          objectFit:"cover",
           transform:"scale(1.02)"
         }}
       />
