@@ -33,6 +33,22 @@ function MapClickHandler({ onClick }) {
   return null
 }
 
+const theme = {
+
+  primary:"#5B679F",
+
+  cream:"#FDF6E9",
+
+  white:"#FFFFFF",
+
+  pink:"#D8B2CF",
+
+  success:"#4CAF50",
+
+  danger:"#E53935"
+
+}
+
 function Map({ user, showAdminButton }) {
 
   const angers = [47.4784, -0.5631]
@@ -49,10 +65,11 @@ function Map({ user, showAdminButton }) {
   const [places, setPlaces] = useState([])
   const [newPlace, setNewPlace] = useState("")
   const [suggestions, setSuggestions] = useState([])
-  const [newCategory, setNewCategory] = useState("Aides & précarité")
+  const [newCategory, setNewCategory] = useState("J’ai faim")
   const [heading, setHeading] = useState(0)
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [openedPlace, setOpenedPlace] = useState(null)
+  const [showCategories,setShowCategories] = useState(false)
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -195,13 +212,62 @@ useEffect(() => {
   ]
 
 // ⭐ Icons pour les filtres
-const icons = {
-  "Tous": "📍",
-  "Aides & précarité": "🧺",
-  "Écoute & soutien": "💬",
-  "Lien social": "🎲",
-  "Vie pratique": "🧾"
-}
+const categories = [
+
+  {
+    name:"J’ai faim",
+    icon:"🧺"
+  },
+
+  {
+    name:"Besoin d’écoute",
+    icon:"💬"
+  },
+
+  {
+    name:"Santé & hygiène",
+    icon:"🧼"
+  },
+
+  {
+    name:"Mes droits",
+    icon:"⚖️"
+  },
+
+  {
+    name:"Sortir & rencontrer",
+    icon:"🎲"
+  },
+
+  // compatibilité anciens lieux
+  {
+    name:"Aides & précarité",
+    icon:"🧺"
+  },
+
+  {
+    name:"Écoute & soutien",
+    icon:"💬"
+  },
+
+  {
+    name:"Lien social",
+    icon:"🎲"
+  },
+
+  {
+    name:"Vie pratique",
+    icon:"🧾"
+  }
+
+]
+
+const icons = Object.fromEntries(
+  categories.map(cat => [
+    cat.name,
+    cat.icon
+  ])
+)
 
 // ⭐ GPS
 function handleLocate(){
@@ -566,65 +632,228 @@ zIndex:3000,
 cursor:"pointer"
 }}
 >
-    <svg width="30" height="30" viewBox="0 0 100 100">
-      <circle cx="50" cy="50" r="6" fill="#000" />
-      <circle cx="50" cy="50" r="22"
-        stroke="#000"
-        strokeWidth="4"
-        fill="none"
-      />
-      <circle cx="50" cy="50" r="36"
-        stroke="#000"
-        strokeWidth="6"
-        fill="none"
-      />
-      <line x1="50" y1="0" x2="50" y2="20"
-        stroke="#000"
-        strokeWidth="6"
-      />
-      <line x1="50" y1="80" x2="50" y2="100"
-        stroke="#000"
-        strokeWidth="6"
-      />
-      <line x1="0" y1="50" x2="20" y2="50"
-        stroke="#000"
-        strokeWidth="6"
-      />
-      <line x1="80" y1="50" x2="100" y2="50"
-        stroke="#000"
-        strokeWidth="6"
-      />
-    </svg>
+    <div
+  style={{
+    position:"relative",
+    width:22,
+    height:30,
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center"
+  }}
+>
+
+  {/* glow */}
+  <div
+    style={{
+      position:"absolute",
+      width:34,
+      height:34,
+      background:"rgba(91,103,159,0.18)",
+      borderRadius:"50%",
+      animation:"gpsPulse 1.8s infinite"
+    }}
+  />
+
+  {/* pin */}
+  <div
+    style={{
+      position:"absolute",
+      width:22,
+      height:22,
+
+      background:theme.primary,
+
+      borderRadius:"50% 50% 50% 0",
+
+      transform:"rotate(-45deg)",
+
+      boxShadow:"0 8px 18px rgba(91,103,159,0.35)"
+    }}
+  />
+
+  {/* centre blanc */}
+  <div
+    style={{
+      position:"absolute",
+
+      width:10,
+      height:10,
+
+      background:"white",
+
+      borderRadius:"50%",
+
+      zIndex:2
+    }}
+  />
+
+</div>
   </button>
 
-  {/* filtres */}
-  <div style={{ display: "flex", gap: 10, overflowX: "auto" }}>
-    {["Tous", "Aides & précarité", "Écoute & soutien", "Lien social", "Vie pratique"].map(cat => (
-      <button
-        key={cat}
-        onClick={() => setFilter(cat)}
-        style={{
-          padding:"9px 18px",
-  borderRadius:999,
-  border:"none",
-  background: filter === cat
-    ? "#06c167"
+  {/* NOUVEAUX FILTRES */}
+<div
+  style={{
+    display:"flex",
+    gap:10,
+    overflowX:"auto",
+    paddingBottom:4
+  }}
+>
+
+  {[
+    "Catégories",
+    "Gratuit",
+    "Ouvert",
+    "Justificatif"
+  ].map((item,i)=>(
+
+    <button
+  key={i}
+
+  onClick={()=>{
+    if(item === "Catégories"){
+      setShowCategories(!showCategories)
+    }
+  }}
+
+  style={{
+    padding:"10px 16px",
+    borderRadius:999,
+
+    border:"none",
+
+    background:
+  item === "Catégories" && filter !== "Tous"
+    ? theme.primary
     : "rgba(255,255,255,0.9)",
-  color: filter === cat ? "white" : "black",
-  backdropFilter:"blur(10px)",
-  boxShadow:"0 6px 18px rgba(0,0,0,0.12)",
-  whiteSpace:"nowrap",
-  fontWeight:500
+
+    backdropFilter:"blur(12px)",
+
+    boxShadow:
+  item === "Catégories" && filter !== "Tous"
+    ? "0 10px 24px rgba(91,103,159,0.35)"
+    : "0 6px 18px rgba(0,0,0,0.12)",
+
+    whiteSpace:"nowrap",
+
+    fontWeight:600,
+    color:
+  item === "Catégories" && filter !== "Tous"
+    ? "white"
+    : "#111",
+    fontSize:15,
+
+    display:"flex",
+    alignItems:"center",
+    gap:8,
+
+    cursor:"pointer"
+  }}
+>
+
+      <span>{item}</span>
+
+      <span style={{
+        fontSize:12,
+        opacity:0.7
+      }}>
+        ▼
+      </span>
+
+    </button>
+
+  ))}
+
+</div>
+
+{/* DROPDOWN CATÉGORIES */}
+{showCategories && (
+
+  <div
+    style={{
+      position:"absolute",
+      top:120,
+      left:10,
+
+      background:"rgba(255,255,255,0.82)",
+
+      backdropFilter:"blur(20px)",
+      WebkitBackdropFilter:"blur(20px)",
+
+      borderRadius:24,
+
+      padding:10,
+
+      boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+
+      zIndex:4000,
+
+      display:"flex",
+      flexDirection:"column",
+      gap:6,
+
+      minWidth:240,
+      animation:"dropdownIn 0.18s ease",
+    }}
+  >
+
+    {[
+  {
+    name:"Tous",
+    icon:"📍"
+  },
+
+  ...categories
+
+].map((cat,i)=>(
+
+      <button
+        key={i}
+
+        onClick={()=>{
+          setFilter(cat.name)
+          setShowCategories(false)
+        }}
+
+        style={{
+          border:"none",
+
+          background:"transparent",
+
+          padding:"14px 16px",
+
+          borderRadius:16,
+
+          textAlign:"left",
+
+          fontSize:15,
+          fontWeight:600,
+
+          cursor:"pointer",
+
+          display:"flex",
+          alignItems:"center",
+          gap:12
         }}
       >
-        <span style={{display:"flex",alignItems:"center",gap:6}}>
-  <span>{icons[cat]}</span>
-  <span>{cat}</span>
-</span>
+
+        <span style={{fontSize:20}}>
+          {cat.icon}
+        </span>
+
+        <span>
+          {cat.name}
+        </span>
+
       </button>
+
     ))}
-    
+
   </div>
+
+)}
+
  {/* Ajouter une adresse */}
 {user && (
 
@@ -721,10 +950,16 @@ boxShadow:"0 4px 14px rgba(0,0,0,0.15)",
 fontSize:16
 }}
 >
-<option value="Aides & précarité">🧺</option>
-<option value="Écoute & soutien">💬</option>
-<option value="Lien social">🎲</option>
-<option value="Vie pratique">🧾</option>
+{categories.map((cat,i)=>(
+
+  <option
+    key={i}
+    value={cat.name}
+  >
+    {cat.icon} {cat.name}
+  </option>
+
+))}
 </select>
 
 <button
@@ -733,7 +968,7 @@ style={{
 padding:"10px 14px",
 borderRadius:14,
 border:"none",
-background:"#06c167",
+background:theme.success,
 color:"white",
 fontWeight:700,
 boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
@@ -1304,7 +1539,7 @@ onMouseLeave={(e)=>{
           border:"none",
           borderRadius:18,
 
-          background:"#1a73e8",
+          background:theme.primary,
           color:"white",
 
           fontSize:15,
@@ -1312,7 +1547,7 @@ onMouseLeave={(e)=>{
 
           cursor:"pointer",
 
-          boxShadow:"0 10px 25px rgba(26,115,232,0.35)",
+          boxShadow:"0 10px 25px rgba(91,103,159,0.35)",
           transition:"0.2s"
         }}
       >
