@@ -564,8 +564,8 @@ box-shadow:0 2px 6px rgba(0,0,0,0.25);
           <img
   src="${icons[aid.category]}"
   style="
-    width:18px;
-    height:18px;
+    width:24px;
+    height:24px;
     object-fit:contain;
   "
 />
@@ -647,11 +647,13 @@ zIndex:3000,
 cursor:"pointer"
 }}
 >
-    <div
+
+<div
   style={{
     position:"relative",
-    width:22,
-    height:30,
+    width:28,
+    height:28,
+
     display:"flex",
     alignItems:"center",
     justifyContent:"center"
@@ -662,48 +664,36 @@ cursor:"pointer"
   <div
     style={{
       position:"absolute",
+
       width:34,
       height:34,
+
       background:"rgba(91,103,159,0.18)",
+
       borderRadius:"50%",
+
       animation:"gpsPulse 1.8s infinite"
     }}
   />
 
-  {/* pin */}
-  <div
+  {/* icône */}
+  <img
+    src="/icons/Clic.svg"
+    alt=""
+
     style={{
-      position:"absolute",
-      width:22,
-      height:22,
+      width:26,
+      height:26,
 
-      background:theme.primary,
+      objectFit:"contain",
 
-      borderRadius:"50% 50% 50% 0",
-
-      transform:"rotate(-45deg)",
-
-      boxShadow:"0 8px 18px rgba(91,103,159,0.35)"
-    }}
-  />
-
-  {/* centre blanc */}
-  <div
-    style={{
-      position:"absolute",
-
-      width:10,
-      height:10,
-
-      background:"white",
-
-      borderRadius:"50%",
-
+      position:"relative",
       zIndex:2
     }}
   />
 
 </div>
+
   </button>
 
   {/* NOUVEAUX FILTRES */}
@@ -804,8 +794,8 @@ activeCategories.length === 0
         src={found.icon}
         alt=""
         style={{
-          width:18,
-          height:18,
+          width:24,
+          height:24,
           objectFit:"contain"
         }}
       />
