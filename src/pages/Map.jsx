@@ -71,9 +71,15 @@ function Map({ user, showAdminButton }) {
   const [openedPlace, setOpenedPlace] = useState(null)
   const [showCategories,setShowCategories] = useState(false)
   const [showDistance,setShowDistance] = useState(false)
+  const [showPrice,setShowPrice] = useState(false)
+  const [showOpen,setShowOpen] = useState(false)
+  const [showProof,setShowProof] = useState(false)
   const [tempCategories,setTempCategories] = useState([])
   const [activeCategories,setActiveCategories] = useState([])
   const [distanceFilter,setDistanceFilter] = useState(null)
+  const [priceFilter,setPriceFilter] = useState(null)
+  const [openFilter,setOpenFilter] = useState(null)
+  const [proofFilter,setProofFilter] = useState(null)
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -412,6 +418,36 @@ filtered = filtered.filter(a =>
 
 }
 
+if(priceFilter){
+
+  filtered = filtered.filter(a =>
+
+    a.price?.includes(priceFilter)
+
+  )
+
+}
+
+if(openFilter){
+
+  filtered = filtered.filter(a =>
+
+    a.open?.includes(openFilter)
+
+  )
+
+}
+
+if(proofFilter){
+
+  filtered = filtered.filter(a =>
+
+    a.proof?.includes(proofFilter)
+
+  )
+
+}
+
   filtered = filtered.map(a => ({
   ...a,
   pos: [a.lat, a.lng],   // ⭐ conversion Supabase → Leaflet
@@ -725,7 +761,7 @@ cursor:"pointer"
   {[
     "Catégories",
     "Distance",
-    "Gratuit",
+    "Prix",
     "Ouvert",
     "Justificatif"
   ].map((item,i)=>(
@@ -739,8 +775,20 @@ cursor:"pointer"
     }
 
     if(item === "Distance"){
-    setShowDistance(!showDistance)
-  }
+      setShowDistance(!showDistance)
+    }
+
+    if(item === "Prix"){
+      setShowPrice(!showPrice)
+    }
+  
+    if(item === "Ouvert"){
+      setShowOpen(!showOpen)
+    }
+
+    if(item === "Justificatif"){
+      setShowProof(!showProof)
+    }
   }}
 
   style={{
@@ -766,11 +814,39 @@ cursor:"pointer"
     whiteSpace:"nowrap",
 
     fontWeight:600,
-    color:
-  item === "Catégories" &&
-  activeCategories.length > 0
-    ? "white"
-    : "#111",
+  color:
+
+item === "Catégories" &&
+activeCategories.length > 0
+
+? "white"
+
+: item === "Distance" &&
+distanceFilter !== null
+
+? "#E05A5A"
+
+: item === "Prix" &&
+priceFilter === "Gratuit"
+
+? "#06C167"
+
+: item === "Prix" &&
+priceFilter === "Prix social"
+
+? "#F59E0B"
+
+: item === "Ouvert" &&
+openFilter === "Aujourd’hui"
+
+? "#14B8A6"
+
+: item === "Ouvert" &&
+openFilter === "Demain"
+
+? "#0F766E"
+
+: "#111",
     fontSize:15,
 
     display:"flex",
@@ -840,31 +916,158 @@ distanceFilter === null
 
 : distanceFilter === 0.5
 
-? "< 500m"
+? "500m"
 
 : distanceFilter === 1
 
-? "< 1 km"
+? "1 km"
 
-: "< 3 km"
+: "3 km"
 
 )
 
+: item === "Prix"
+
+? (
+
+priceFilter === null
+
+? "Prix"
+
+: priceFilter === "Gratuit"
+
+? "● Gratuit"
+
+: "● Prix social"
+
+)
+
+: item === "Ouvert"
+
+? (
+
+openFilter === null
+
+? "Ouvert"
+
+: openFilter === "Aujourd’hui"
+
+? (
+  <span style={{
+    color:"#14B8A6",
+    fontWeight:700
+  }}>
+    ● Aujourd’hui
+  </span>
+)
+
+: (
+  <span style={{
+    color:"#0F766E",
+    fontWeight:700
+  }}>
+    ● Demain
+  </span>
+)
+
+)
+
+: item === "Justificatif"
+
+? (
+
+proofFilter === null
+
+? "Justificatif"
+
+: proofFilter === "Sans justificatif"
+
+? (
+  <span style={{
+    color:"#8B9AD9",
+    fontWeight:700
+  }}>
+    ● Sans justificatif
+  </span>
+)
+
+: (
+  <span style={{
+    color:"#5B679F",
+    fontWeight:700
+  }}>
+    ● Avec justificatif
+  </span>
+)
+
+)
 : item}
 
 </span>
 
-      <span style={{
-        fontSize:12,
-        opacity:0.7
-      }}>
-        ▼
-      </span>
+      <span
+  style={{
+
+    fontSize:12,
+
+    color:
+
+      item === "Distance" &&
+      distanceFilter !== null
+
+      ? "#E05A5A"
+
+      : item === "Prix" &&
+      priceFilter === "Gratuit"
+
+      ? "#06C167"
+
+      : item === "Prix" &&
+      priceFilter === "Prix social"
+
+      ? "#F59E0B"
+
+      : item === "Ouvert" &&
+      openFilter === "Aujourd’hui"
+
+      ? "#14B8A6"
+
+      : item === "Ouvert" &&
+      openFilter === "Demain"
+
+      ? "#0F766E"
+
+
+      : item === "Justificatif" &&
+      proofFilter === "Sans justificatif"
+
+      ? "#8B9AD9"
+
+      : item === "Justificatif" &&
+      proofFilter === "Avec justificatif"
+
+      ? "#5B679F"
+
+      : "#666"
+  }}
+>
+  ▼
+</span>
 
     </button>
 
   ))}
-{activeCategories.length > 0 && (
+{(
+  activeCategories.length > 0 ||
+
+  distanceFilter !== null ||
+
+  priceFilter !== null||
+
+  openFilter !== null||
+
+  proofFilter !== null
+) && (
 
   <button
 
@@ -875,6 +1078,11 @@ distanceFilter === null
 
       setDistanceFilter(null)
 
+      setPriceFilter(null)
+
+      setOpenFilter(null)
+
+      setProofFilter(null)
     }}
 
     style={{
@@ -1119,17 +1327,17 @@ distanceFilter === null
 
 {[
   {
-    label:"< 500m",
+    label:"500m",
     value:0.5
   },
 
   {
-    label:"< 1 km",
+    label:"1 km",
     value:1
   },
 
   {
-    label:"< 3 km",
+    label:"3 km",
     value:3
   },
 
@@ -1175,11 +1383,373 @@ distanceFilter === null
 
 </button>
 
+
 ))}
 
 </div>
 
 )}
+
+{showPrice && (
+
+<div
+  style={{
+    position:"absolute",
+    top:120,
+    left:320,
+
+    background:"rgba(255,255,255,0.82)",
+
+    backdropFilter:"blur(20px)",
+
+    borderRadius:24,
+
+    padding:10,
+
+    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+
+    zIndex:4000,
+
+    display:"flex",
+    flexDirection:"column",
+    gap:6,
+
+    minWidth:200,
+
+    animation:"dropdownIn 0.18s ease",
+  }}
+>
+
+{[
+  {
+    label:"Gratuit",
+    value:"Gratuit"
+  },
+
+  {
+    label:"Prix social",
+    value:"Prix social"
+  },
+
+  {
+    label:"Peu importe",
+    value:null
+  }
+
+].map((item,i)=>(
+
+<button
+  key={i}
+
+  onClick={()=>{
+    setPriceFilter(item.value)
+    setShowPrice(false)
+  }}
+
+  style={{
+
+    border:"none",
+
+    background:
+      priceFilter === item.value
+      ? "rgba(91,103,159,0.14)"
+      : "transparent",
+
+    padding:"14px 16px",
+
+    borderRadius:16,
+
+    textAlign:"left",
+
+    fontSize:15,
+
+    fontWeight:600,
+
+    cursor:"pointer"
+  }}
+>
+
+<div
+  style={{
+    display:"flex",
+    alignItems:"center",
+    gap:10
+  }}
+>
+
+  <div
+    style={{
+      width:10,
+      height:10,
+
+      borderRadius:"50%",
+
+      background:
+
+        item.value === "Gratuit"
+        ? "#06C167"
+
+        : item.value === "Prix social"
+        ? "#F59E0B"
+
+        : "#D1D5DB"
+    }}
+  />
+
+  <span>
+    {item.label}
+  </span>
+
+</div>
+
+</button>
+
+))}
+
+</div>
+
+)}
+
+{showOpen && (
+
+<div
+  style={{
+    position:"absolute",
+    top:120,
+    left:420,
+
+    background:"rgba(255,255,255,0.82)",
+
+    backdropFilter:"blur(20px)",
+
+    borderRadius:24,
+
+    padding:10,
+
+    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+
+    zIndex:4000,
+
+    display:"flex",
+    flexDirection:"column",
+    gap:6,
+
+    minWidth:220,
+
+    animation:"dropdownIn 0.18s ease",
+  }}
+>
+
+{[
+  {
+    label:"Aujourd’hui",
+    value:"Aujourd’hui"
+  },
+
+  {
+    label:"Demain",
+    value:"Demain"
+  },
+
+  {
+    label:"Peu importe",
+    value:null
+  }
+
+].map((item,i)=>(
+
+<button
+  key={i}
+
+  onClick={()=>{
+    setOpenFilter(item.value)
+    setShowOpen(false)
+  }}
+
+  style={{
+
+    border:"none",
+
+    background:
+      openFilter === item.value
+      ? "rgba(91,103,159,0.14)"
+      : "transparent",
+
+    padding:"14px 16px",
+
+    borderRadius:16,
+
+    textAlign:"left",
+
+    fontSize:15,
+
+    fontWeight:600,
+
+    cursor:"pointer"
+  }}
+>
+
+<div
+  style={{
+    display:"flex",
+    alignItems:"center",
+    gap:10
+  }}
+>
+
+  <div
+    style={{
+      width:10,
+      height:10,
+
+      borderRadius:"50%",
+
+      background:
+
+        item.value === "Aujourd’hui"
+        ? "#14B8A6"
+
+        : item.value === "Demain"
+        ? "#0F766E"
+
+        : "#D1D5DB"
+    }}
+  />
+
+  <span>
+    {item.label}
+  </span>
+
+</div>
+
+</button>
+
+))}
+
+</div>
+
+)}
+
+{showProof && (
+
+<div
+  style={{
+    position:"absolute",
+    top:120,
+    left:480,
+
+    background:"rgba(255,255,255,0.82)",
+
+    backdropFilter:"blur(20px)",
+
+    borderRadius:24,
+
+    padding:10,
+
+    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+
+    zIndex:4000,
+
+    display:"flex",
+    flexDirection:"column",
+    gap:6,
+
+    minWidth:240,
+
+    animation:"dropdownIn 0.18s ease",
+  }}
+>
+
+{[
+  {
+    label:"Sans justificatif",
+    value:"Sans justificatif"
+  },
+
+  {
+    label:"Avec justificatif",
+    value:"Avec justificatif"
+  },
+
+  {
+    label:"Peu importe",
+    value:null
+  }
+
+].map((item,i)=>(
+
+<button
+  key={i}
+
+  onClick={()=>{
+    setProofFilter(item.value)
+    setShowProof(false)
+  }}
+
+  style={{
+
+    border:"none",
+
+    background:
+      proofFilter === item.value
+      ? "rgba(91,103,159,0.14)"
+      : "transparent",
+
+    padding:"14px 16px",
+
+    borderRadius:16,
+
+    textAlign:"left",
+
+    fontSize:15,
+
+    fontWeight:600,
+
+    cursor:"pointer"
+  }}
+>
+
+<div
+  style={{
+    display:"flex",
+    alignItems:"center",
+    gap:10
+  }}
+>
+
+  <div
+    style={{
+      width:10,
+      height:10,
+
+      borderRadius:"50%",
+
+      background:
+
+        item.value === "Sans justificatif"
+        ? "#8B9AD9"
+
+        : item.value === "Avec justificatif"
+        ? "#5B679F"
+
+        : "#D1D5DB"
+    }}
+  />
+
+  <span>
+    {item.label}
+  </span>
+
+</div>
+
+</button>
+
+))}
+
+</div>
+
+)}
+
 
  {/* Ajouter une adresse */}
 {user && (
@@ -1672,7 +2242,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
           fontWeight:700
         }}
       >
-        🟢 Ouvert actuellement
+        ● Ouvert actuellement
       </div>
 
       <div
@@ -1688,7 +2258,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
           fontSize:16
         }}
       >
-        💰 {openedPlace.price || "Gratuit"}
+         {openedPlace.price || "Gratuit"}
       </div>
 
     </div>
@@ -1801,7 +2371,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
             borderRadius:20
           }}
         >
-          🆔 {openedPlace.justificatif || "Aucun justificatif"}
+          ● {openedPlace.justificatif || "Aucun justificatif"}
         </div>
 
         <div
@@ -1853,7 +2423,7 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
             fontSize:15
           }}
         >
-          🟢 Ouvert actuellement
+          ● Ouvert actuellement
         </div>
 
         <div
