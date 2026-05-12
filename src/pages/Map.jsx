@@ -70,6 +70,8 @@ function Map({ user, showAdminButton }) {
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [openedPlace, setOpenedPlace] = useState(null)
   const [showCategories,setShowCategories] = useState(false)
+  const [tempCategories,setTempCategories] = useState([])
+  const [activeCategories,setActiveCategories] = useState([])
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -211,55 +213,52 @@ useEffect(() => {
     { name: "CAF Angers", pos: [47.46, -0.55], category: "Vie pratique" }
   ]
 
+const createCategoryIcon = (iconUrl) => {
+
+  return L.icon({
+
+    iconUrl,
+
+    iconSize:[42,42],
+
+    iconAnchor:[21,42],
+
+    popupAnchor:[0,-42],
+
+    className:"custom-marker"
+
+  })
+
+}
+
 // ⭐ Icons pour les filtres
 const categories = [
 
   {
     name:"J’ai faim",
-    icon:"🧺"
+    icon:"/icons/Panier.svg"
   },
 
   {
     name:"Besoin d’écoute",
-    icon:"💬"
+    icon:"/icons/Haut-parleur.svg"
   },
 
   {
     name:"Santé & hygiène",
-    icon:"🧼"
+    icon:"/icons/Brosse-dent.svg"
   },
 
   {
     name:"Mes droits",
-    icon:"⚖️"
+    icon:"/icons/Actus.svg"
   },
 
   {
     name:"Sortir & rencontrer",
-    icon:"🎲"
+    icon:"/icons/Ballon.svg"
   },
-
-  // compatibilité anciens lieux
-  {
-    name:"Aides & précarité",
-    icon:"🧺"
-  },
-
-  {
-    name:"Écoute & soutien",
-    icon:"💬"
-  },
-
-  {
-    name:"Lien social",
-    icon:"🎲"
-  },
-
-  {
-    name:"Vie pratique",
-    icon:"🧾"
-  }
-
+  
 ]
 
 const icons = Object.fromEntries(
@@ -379,14 +378,23 @@ function openRoute(lat, lng){
       : d.toFixed(2) + " km"
   }
  
-  let filtered =
-  filter === "Tous"
-    ? places
-    : places.filter(p => p.category === filter)
+  let filtered = places
 
-  filtered = filtered.filter(a =>
-    a.name.toLowerCase().includes(search.toLowerCase())
+// ⭐ filtre catégories multiples
+if(activeCategories.length > 0){
+
+  filtered = filtered.filter(p =>
+    activeCategories.includes(p.category)
   )
+
+}
+
+// ⭐ recherche texte
+filtered = filtered.filter(a =>
+  a.name.toLowerCase().includes(
+    search.toLowerCase()
+  )
+)
 
   filtered = filtered.map(a => ({
   ...a,
@@ -553,7 +561,14 @@ box-shadow:0 2px 6px rgba(0,0,0,0.25);
           bottom:16px;
           box-shadow:0 4px 10px rgba(0,0,0,0.2);
         ">
-          ${icons[aid.category]}
+          <img
+  src="${icons[aid.category]}"
+  style="
+    width:18px;
+    height:18px;
+    object-fit:contain;
+  "
+/>
         </div>
 
       </div>
@@ -703,6 +718,7 @@ cursor:"pointer"
 
   {[
     "Catégories",
+    "Distance",
     "Gratuit",
     "Ouvert",
     "Justificatif"
@@ -724,14 +740,16 @@ cursor:"pointer"
     border:"none",
 
     background:
-  item === "Catégories" && filter !== "Tous"
+  item === "Catégories" &&
+  activeCategories.length > 0
     ? theme.primary
     : "rgba(255,255,255,0.9)",
 
     backdropFilter:"blur(12px)",
 
     boxShadow:
-  item === "Catégories" && filter !== "Tous"
+  item === "Catégories" &&
+  activeCategories.length > 0
     ? "0 10px 24px rgba(91,103,159,0.35)"
     : "0 6px 18px rgba(0,0,0,0.12)",
 
@@ -739,7 +757,8 @@ cursor:"pointer"
 
     fontWeight:600,
     color:
-  item === "Catégories" && filter !== "Tous"
+  item === "Catégories" &&
+  activeCategories.length > 0
     ? "white"
     : "#111",
     fontSize:15,
@@ -752,7 +771,56 @@ cursor:"pointer"
   }}
 >
 
-      <span>{item}</span>
+      <span>
+
+{item === "Catégories" ? (
+
+activeCategories.length === 0
+
+? (
+  "Catégories"
+)
+
+: (
+
+<div
+  style={{
+    display:"flex",
+    alignItems:"center",
+    gap:6
+  }}
+>
+
+  {activeCategories.slice(0,3).map((cat,i)=>{
+
+    const found = categories.find(
+      c => c.name === cat
+    )
+
+    return found ? (
+
+      <img
+        key={i}
+        src={found.icon}
+        alt=""
+        style={{
+          width:18,
+          height:18,
+          objectFit:"contain"
+        }}
+      />
+
+    ) : null
+
+  })}
+
+</div>
+
+)
+
+) : item}
+
+</span>
 
       <span style={{
         fontSize:12,
@@ -764,91 +832,221 @@ cursor:"pointer"
     </button>
 
   ))}
+{activeCategories.length > 0 && (
 
-</div>
+  <button
 
-{/* DROPDOWN CATÉGORIES */}
-{showCategories && (
+    onClick={()=>{
 
-  <div
+      setTempCategories([])
+      setActiveCategories([])
+
+    }}
+
     style={{
-      position:"absolute",
-      top:120,
-      left:10,
 
-      background:"rgba(255,255,255,0.82)",
+      padding:"10px 16px",
 
-      backdropFilter:"blur(20px)",
-      WebkitBackdropFilter:"blur(20px)",
+      borderRadius:999,
 
-      borderRadius:24,
+      border:"none",
 
-      padding:10,
+      background:"rgba(255,255,255,0.9)",
 
-      boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+      backdropFilter:"blur(12px)",
 
-      zIndex:4000,
+      boxShadow:"0 6px 18px rgba(0,0,0,0.12)",
 
-      display:"flex",
-      flexDirection:"column",
-      gap:6,
+      whiteSpace:"nowrap",
 
-      minWidth:240,
-      animation:"dropdownIn 0.18s ease",
+      fontWeight:700,
+
+      fontSize:15,
+
+      cursor:"pointer",
+
+      animation:"dropdownIn 0.18s ease"
+
     }}
   >
 
-    {[
-  {
-    name:"Tous",
-    icon:"📍"
-  },
+    Effacer
 
-  ...categories
+  </button>
 
-].map((cat,i)=>(
+)}
+</div>
 
-      <button
-        key={i}
+  {/* DROPDOWN CATÉGORIES */}
+  {showCategories && (
 
-        onClick={()=>{
-          setFilter(cat.name)
-          setShowCategories(false)
-        }}
+    <div
+      style={{
+        position:"absolute",
+        top:120,
+        left:10,
 
-        style={{
-          border:"none",
+        background:"rgba(255,255,255,0.82)",
 
-          background:"transparent",
+        backdropFilter:"blur(20px)",
+        WebkitBackdropFilter:"blur(20px)",
 
-          padding:"14px 16px",
+        borderRadius:24,
 
-          borderRadius:16,
+        padding:10,
 
-          textAlign:"left",
+        boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
 
-          fontSize:15,
-          fontWeight:600,
+        zIndex:4000,
 
-          cursor:"pointer",
+        display:"flex",
+        flexDirection:"column",
+        gap:6,
 
-          display:"flex",
-          alignItems:"center",
-          gap:12
-        }}
-      >
+        minWidth:240,
+        animation:"dropdownIn 0.18s ease",
+      }}
+    >
+    {categories.map((cat,i)=>(
 
-        <span style={{fontSize:20}}>
-          {cat.icon}
-        </span>
+        <button
+          key={i}
 
-        <span>
-          {cat.name}
-        </span>
+          onClick={()=>{
 
-      </button>
+            if(tempCategories.includes(cat.name)){
 
-    ))}
+    setTempCategories(
+      tempCategories.filter(c => c !== cat.name)
+    )
+
+  }else{
+
+    setTempCategories([
+      ...tempCategories,
+      cat.name
+    ])
+
+  }
+          }}
+
+  onMouseEnter={(e)=>{
+    if(!tempCategories.includes(cat.name)){
+      e.currentTarget.style.background =
+        "rgba(91,103,159,0.08)"
+    }
+  }}
+
+  onMouseLeave={(e)=>{
+    if(!tempCategories.includes(cat.name)){
+      e.currentTarget.style.background =
+        "transparent"
+    }
+  }}
+          style={{
+            border:"none",
+
+            background:
+    tempCategories.includes(cat.name)
+      ? "rgba(91,103,159,0.14)"
+      : "transparent",
+
+            padding:"14px 16px",
+
+            borderRadius:16,
+
+            textAlign:"left",
+
+            fontSize:15,
+            fontWeight:
+    tempCategories.includes(cat.name)
+      ? 700
+      : 600,
+
+            cursor:"pointer",
+
+            display:"flex",
+            alignItems:"center",
+            gap:12,
+            transition:"0.16s", 
+          }}
+        >
+
+          <img
+    src={cat.icon}
+    alt=""
+    style={{
+      width:22,
+      height:22,
+      objectFit:"contain"
+    }}
+  />
+
+          <span>
+            {cat.name}
+          </span>
+
+        </button>
+
+      ))}
+
+  <div
+  style={{
+    display:"flex",
+    gap:10,
+    marginTop:10
+  }}
+>
+
+  <button
+    onClick={()=>{
+      setTempCategories(activeCategories)
+      setShowCategories(false)
+    }}
+
+    style={{
+      flex:1,
+      height:44,
+
+      border:"none",
+      borderRadius:16,
+
+      background:"rgba(0,0,0,0.06)",
+
+      fontWeight:700,
+      cursor:"pointer"
+    }}
+  >
+    Annuler
+  </button>
+
+  <button
+    onClick={()=>{
+      setActiveCategories(tempCategories)
+      setShowCategories(false)
+    }}
+
+    style={{
+      flex:1,
+      height:44,
+
+      border:"none",
+      borderRadius:16,
+
+      background:theme.primary,
+      color:"white",
+
+      fontWeight:700,
+
+      boxShadow:"0 10px 24px rgba(91,103,159,0.35)",
+
+      cursor:"pointer"
+    }}
+  >
+    Appliquer
+  </button>
+
+</div>
 
   </div>
 
