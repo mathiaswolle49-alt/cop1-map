@@ -70,8 +70,10 @@ function Map({ user, showAdminButton }) {
   const [selectedPlace, setSelectedPlace] = useState(null)
   const [openedPlace, setOpenedPlace] = useState(null)
   const [showCategories,setShowCategories] = useState(false)
+  const [showDistance,setShowDistance] = useState(false)
   const [tempCategories,setTempCategories] = useState([])
   const [activeCategories,setActiveCategories] = useState([])
+  const [distanceFilter,setDistanceFilter] = useState(null)
 
 // ⭐ LONG PRESS ADMIN
 let pressTimer = null
@@ -391,10 +393,24 @@ if(activeCategories.length > 0){
 
 // ⭐ recherche texte
 filtered = filtered.filter(a =>
-  a.name.toLowerCase().includes(
-    search.toLowerCase()
-  )
+  a.name.toLowerCase().includes(search.toLowerCase())
 )
+
+  if(distanceFilter){
+
+  filtered = filtered.filter(a => {
+
+    const dx = userPos[0] - a.lat
+    const dy = userPos[1] - a.lng
+
+    const distanceKm =
+      Math.sqrt(dx * dx + dy * dy) * 111
+
+    return distanceKm <= distanceFilter
+
+  })
+
+}
 
   filtered = filtered.map(a => ({
   ...a,
@@ -721,6 +737,10 @@ cursor:"pointer"
     if(item === "Catégories"){
       setShowCategories(!showCategories)
     }
+
+    if(item === "Distance"){
+    setShowDistance(!showDistance)
+  }
   }}
 
   style={{
@@ -808,7 +828,29 @@ activeCategories.length === 0
 
 )
 
-) : item}
+) 
+
+: item === "Distance"
+
+? (
+
+distanceFilter === null
+
+? "Distance"
+
+: distanceFilter === 0.5
+
+? "< 500m"
+
+: distanceFilter === 1
+
+? "< 1 km"
+
+: "< 3 km"
+
+)
+
+: item}
 
 </span>
 
@@ -830,6 +872,8 @@ activeCategories.length === 0
 
       setTempCategories([])
       setActiveCategories([])
+
+      setDistanceFilter(null)
 
     }}
 
@@ -1039,6 +1083,101 @@ activeCategories.length === 0
 </div>
 
   </div>
+
+)}
+
+
+{showDistance && (
+
+<div
+  style={{
+    position:"absolute",
+    top:120,
+    left:170,
+
+    background:"rgba(255,255,255,0.82)",
+
+    backdropFilter:"blur(20px)",
+
+    borderRadius:24,
+
+    padding:10,
+
+    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+
+    zIndex:4000,
+
+    display:"flex",
+    flexDirection:"column",
+    gap:6,
+
+    minWidth:180,
+
+    animation:"dropdownIn 0.18s ease",
+  }}
+>
+
+{[
+  {
+    label:"< 500m",
+    value:0.5
+  },
+
+  {
+    label:"< 1 km",
+    value:1
+  },
+
+  {
+    label:"< 3 km",
+    value:3
+  },
+
+  {
+    label:"Peu importe",
+    value:null
+  }
+
+].map((item,i)=>(
+
+<button
+  key={i}
+
+  onClick={()=>{
+    setDistanceFilter(item.value)
+    setShowDistance(false)
+  }}
+
+  style={{
+
+    border:"none",
+
+    background:
+      distanceFilter === item.value
+      ? "rgba(91,103,159,0.14)"
+      : "transparent",
+
+    padding:"14px 16px",
+
+    borderRadius:16,
+
+    textAlign:"left",
+
+    fontSize:15,
+
+    fontWeight:600,
+
+    cursor:"pointer"
+  }}
+>
+
+📍 {item.label}
+
+</button>
+
+))}
+
+</div>
 
 )}
 
@@ -1288,9 +1427,23 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
       <h3>{aid.name}</h3>
 
-      <p>{aid.category}</p>
+      <p
+  style={{
+    color:"#5B679F",
+    fontWeight:700
+  }}
+>
+  {aid.category}
+</p>
 
-      <p>{aid.distance}</p>
+      <p
+  style={{
+    color:"#E05A5A",
+    fontWeight:700
+  }}
+>
+  📍 {aid.distance}
+</p>
 
     </div>
 
@@ -1477,10 +1630,22 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
               style={{
                 marginTop:4,
                 fontSize:15,
-                opacity:0.92
+                opacity:0.92,
+                fontWeight:700
               }}
             >
               {openedPlace.category}
+            </p>
+
+            <p
+             style={{
+              marginTop:6,
+              fontSize:14,
+              fontWeight:700,
+              color:"#FFDDDD"
+              }}
+            >
+             📍 {openedPlace.distance}
             </p>
 
           </div>
