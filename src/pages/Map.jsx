@@ -1119,178 +1119,261 @@ proofFilter === null
 )}
 </div>
 
-  {/* DROPDOWN CATÉGORIES */}
-  {showCategories && (
+{/* DROPDOWN CATÉGORIES */}
+{showCategories && (
 
-    <div
-      style={{
-        position:"absolute",
-        top:120,
-        left:10,
+<>
 
-        background:"rgba(255,255,255,0.82)",
+{/* OVERLAY */}
 
-        backdropFilter:"blur(20px)",
-        WebkitBackdropFilter:"blur(20px)",
+<div
+onClick={()=>setShowCategories(false)}
 
-        borderRadius:24,
+style={{
 
-        padding:10,
+position:"fixed",
+inset:0,
 
-        boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+background:"rgba(0,0,0,0.35)",
 
-        zIndex:4000,
+backdropFilter:"blur(8px)",
 
-        display:"flex",
-        flexDirection:"column",
-        gap:6,
+zIndex:5000,
 
-        minWidth:240,
-        animation:"dropdownIn 0.18s ease",
-      }}
-    >
-    {categories.map((cat,i)=>(
+animation:"fadeIn 0.2s ease"
+}}
+/>
 
-        <button
-          key={i}
+{/* SHEET */}
 
-          onClick={()=>{
+<div
+style={{
 
-            if(tempCategories.includes(cat.name)){
+position:"fixed",
 
-    setTempCategories(
-      tempCategories.filter(c => c !== cat.name)
-    )
+left:0,
+right:0,
+bottom:0,
 
-  }else{
+background:"rgba(255,255,255,0.92)",
 
-    setTempCategories([
-      ...tempCategories,
-      cat.name
-    ])
+backdropFilter:"blur(30px)",
 
-  }
-          }}
+borderTopLeftRadius:32,
+borderTopRightRadius:32,
 
-  onMouseEnter={(e)=>{
-    if(!tempCategories.includes(cat.name)){
-      e.currentTarget.style.background =
-        "rgba(91,103,159,0.08)"
-    }
-  }}
+padding:"20px 20px 30px",
 
-  onMouseLeave={(e)=>{
-    if(!tempCategories.includes(cat.name)){
-      e.currentTarget.style.background =
-        "transparent"
-    }
-  }}
-          style={{
-            border:"none",
+zIndex:6000,
 
-            background:
-    tempCategories.includes(cat.name)
-      ? "rgba(91,103,159,0.14)"
-      : "transparent",
+boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
 
-            padding:"14px 16px",
+animation:"sheetUp 0.28s ease",
 
-            borderRadius:16,
+maxHeight:"75vh",
 
-            textAlign:"left",
-
-            fontSize:15,
-            fontWeight:
-    tempCategories.includes(cat.name)
-      ? 700
-      : 600,
-
-            cursor:"pointer",
-
-            display:"flex",
-            alignItems:"center",
-            gap:12,
-            transition:"0.16s", 
-          }}
-        >
-
-          <img
-    src={cat.icon}
-    alt=""
-    style={{
-      width:22,
-      height:22,
-      objectFit:"contain"
-    }}
-  />
-
-          <span>
-            {cat.name}
-          </span>
-
-        </button>
-
-      ))}
-
-  <div
-  style={{
-    display:"flex",
-    gap:10,
-    marginTop:10
-  }}
+overflowY:"auto"
+}}
 >
 
-  <button
-    onClick={()=>{
-      setTempCategories(activeCategories)
-      setShowCategories(false)
-    }}
+{/* HANDLE */}
 
-    style={{
-      flex:1,
-      height:44,
+<div
+style={{
 
-      border:"none",
-      borderRadius:16,
+width:46,
+height:5,
 
-      background:"rgba(0,0,0,0.06)",
+background:"rgba(0,0,0,0.15)",
 
-      fontWeight:700,
-      cursor:"pointer"
-    }}
-  >
-    Annuler
-  </button>
+borderRadius:999,
 
-  <button
-    onClick={()=>{
-      setActiveCategories(tempCategories)
-      setShowCategories(false)
-    }}
+margin:"0 auto 20px"
+}}
+/>
 
-    style={{
-      flex:1,
-      height:44,
+{/* TITLE */}
 
-      border:"none",
-      borderRadius:16,
+<h2
+style={{
+fontSize:22,
+fontWeight:800,
+marginBottom:18
+}}
+>
+Catégories
+</h2>
 
-      background:theme.primary,
-      color:"white",
+{/* LISTE */}
 
-      fontWeight:700,
+<div
+style={{
+display:"flex",
+flexDirection:"column",
+gap:10
+}}
+>
 
-      boxShadow:"0 10px 24px rgba(91,103,159,0.35)",
+{categories.map((cat,i)=>(
 
-      cursor:"pointer"
-    }}
-  >
-    Appliquer
-  </button>
+<button
+key={i}
+
+onClick={()=>{
+
+if(tempCategories.includes(cat.name)){
+
+setTempCategories(
+tempCategories.filter(c => c !== cat.name)
+)
+
+}else{
+
+setTempCategories([
+...tempCategories,
+cat.name
+])
+
+}
+
+}}
+
+style={{
+
+border:"none",
+
+background:
+tempCategories.includes(cat.name)
+? "rgba(91,103,159,0.12)"
+: "rgba(255,255,255,0.7)",
+
+padding:"16px 18px",
+
+borderRadius:22,
+
+display:"flex",
+alignItems:"center",
+gap:14,
+
+fontSize:16,
+
+fontWeight:
+tempCategories.includes(cat.name)
+? 700
+: 600,
+
+boxShadow:
+tempCategories.includes(cat.name)
+? "0 10px 24px rgba(91,103,159,0.18)"
+: "0 4px 12px rgba(0,0,0,0.06)",
+
+transition:"0.18s",
+
+cursor:"pointer"
+}}
+>
+
+<img
+src={cat.icon}
+alt=""
+
+style={{
+width:24,
+height:24,
+objectFit:"contain"
+}}
+/>
+
+<span>
+{cat.name}
+</span>
+
+</button>
+
+))}
 
 </div>
 
-  </div>
+{/* ACTIONS */}
+
+<div
+style={{
+display:"flex",
+gap:12,
+marginTop:24
+}}
+>
+
+<button
+onClick={()=>{
+
+setTempCategories([])
+setActiveCategories([])
+
+setShowCategories(false)
+
+}}
+
+style={{
+
+flex:1,
+height:54,
+
+border:"none",
+
+borderRadius:20,
+
+background:"rgba(0,0,0,0.06)",
+
+fontWeight:700,
+
+fontSize:15,
+
+cursor:"pointer"
+}}
+>
+Réinitialiser
+</button>
+
+<button
+onClick={()=>{
+
+setActiveCategories(tempCategories)
+
+setShowCategories(false)
+
+}}
+
+style={{
+
+flex:1,
+height:54,
+
+border:"none",
+
+borderRadius:20,
+
+background:theme.primary,
+
+color:"white",
+
+fontWeight:800,
+
+fontSize:15,
+
+boxShadow:"0 12px 30px rgba(91,103,159,0.35)",
+
+cursor:"pointer"
+}}
+>
+Appliquer
+</button>
+
+</div>
+
+</div>
+
+</>
 
 )}
 
