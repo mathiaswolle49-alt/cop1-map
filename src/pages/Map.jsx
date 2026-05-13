@@ -1138,7 +1138,7 @@ background:"rgba(0,0,0,0.35)",
 
 backdropFilter:"blur(8px)",
 
-zIndex:5000,
+zIndex:15000,
 
 animation:"fadeIn 0.2s ease"
 }}
@@ -1164,7 +1164,7 @@ borderTopRightRadius:32,
 
 padding:"20px 20px 30px",
 
-zIndex:6000,
+zIndex:16000,
 
 boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
 
