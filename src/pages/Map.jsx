@@ -1119,6 +1119,8 @@ proofFilter === null
 )}
 </div>
 
+</div>
+
 {/* DROPDOWN CATÉGORIES */}
 {showCategories && (
 
@@ -1959,7 +1961,6 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 </div>
 )}
 
-</div>
 
  {/* LISTE */}
 <div
