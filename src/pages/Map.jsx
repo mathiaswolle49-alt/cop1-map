@@ -1500,7 +1500,7 @@ border:"none",
 
 background:
 distanceFilter === item.value
-? "rgba(224,90,90,0.12)"
+? "rgba(91,103,159,0.12)"
 : "rgba(255,255,255,0.7)",
 
 padding:"16px 18px",
@@ -1520,7 +1520,7 @@ distanceFilter === item.value
 
 boxShadow:
 distanceFilter === item.value
-? "0 10px 24px rgba(224,90,90,0.18)"
+? "0 10px 24px rgba(91,103,159,0.18)"
 : "0 4px 12px rgba(0,0,0,0.06)",
 
 cursor:"pointer"
