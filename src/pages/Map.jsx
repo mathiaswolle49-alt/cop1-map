@@ -1382,456 +1382,664 @@ Appliquer
 
 {showDistance && (
 
+<>
+
 <div
-  style={{
-    position:"absolute",
-    top:120,
-    left:170,
+onClick={()=>setShowDistance(false)}
 
-    background:"rgba(255,255,255,0.82)",
+style={{
+position:"fixed",
+inset:0,
 
-    backdropFilter:"blur(20px)",
+background:"rgba(0,0,0,0.35)",
 
-    borderRadius:24,
+backdropFilter:"blur(8px)",
 
-    padding:10,
+zIndex:15000,
 
-    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+animation:"fadeIn 0.2s ease"
+}}
+/>
 
-    zIndex:4000,
+<div
+style={{
 
-    display:"flex",
-    flexDirection:"column",
-    gap:6,
+position:"fixed",
 
-    minWidth:180,
+left:0,
+right:0,
+bottom:0,
 
-    animation:"dropdownIn 0.18s ease",
-  }}
+background:"rgba(255,255,255,0.92)",
+
+backdropFilter:"blur(30px)",
+
+borderTopLeftRadius:32,
+borderTopRightRadius:32,
+
+padding:"20px 20px 30px",
+
+zIndex:16000,
+
+boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
+
+animation:"sheetUp 0.28s ease",
+
+maxHeight:"75vh",
+
+overflowY:"auto"
+}}
+>
+
+<div
+style={{
+
+width:46,
+height:5,
+
+background:"rgba(0,0,0,0.15)",
+
+borderRadius:999,
+
+margin:"0 auto 20px"
+}}
+/>
+
+<h2
+style={{
+fontSize:22,
+fontWeight:800,
+marginBottom:18
+}}
+>
+Distance
+</h2>
+
+<div
+style={{
+display:"flex",
+flexDirection:"column",
+gap:10
+}}
 >
 
 {[
-  {
-    label:"500m",
-    value:0.5
-  },
+{
+label:"500m",
+value:0.5
+},
 
-  {
-    label:"1 km",
-    value:1
-  },
+{
+label:"1 km",
+value:1
+},
 
-  {
-    label:"3 km",
-    value:3
-  },
+{
+label:"3 km",
+value:3
+},
 
-  {
-    label:"Peu importe",
-    value:null
-  }
+{
+label:"Peu importe",
+value:null
+}
 
 ].map((item,i)=>(
 
 <button
-  key={i}
+key={i}
 
-  onClick={()=>{
-    setDistanceFilter(item.value)
-    setShowDistance(false)
-  }}
+onClick={()=>{
+setDistanceFilter(item.value)
+setShowDistance(false)
+}}
 
-  style={{
+style={{
 
-    border:"none",
+border:"none",
 
-    background:
-      distanceFilter === item.value
-      ? "rgba(91,103,159,0.14)"
-      : "transparent",
+background:
+distanceFilter === item.value
+? "rgba(224,90,90,0.12)"
+: "rgba(255,255,255,0.7)",
 
-    padding:"14px 16px",
+padding:"16px 18px",
 
-    borderRadius:16,
+borderRadius:22,
 
-    textAlign:"left",
+display:"flex",
+alignItems:"center",
+gap:14,
 
-    fontSize:15,
+fontSize:16,
 
-    fontWeight:600,
+fontWeight:
+distanceFilter === item.value
+? 700
+: 600,
 
-    cursor:"pointer"
-  }}
+boxShadow:
+distanceFilter === item.value
+? "0 10px 24px rgba(224,90,90,0.18)"
+: "0 4px 12px rgba(0,0,0,0.06)",
+
+cursor:"pointer"
+}}
 >
 
-📍 {item.label}
+<div
+style={{
+width:10,
+height:10,
+
+borderRadius:"50%",
+
+background:
+item.value !== null
+? "#E05A5A"
+: "#D1D5DB"
+}}
+/>
+
+<span>
+{item.label}
+</span>
 
 </button>
-
 
 ))}
 
 </div>
+
+</div>
+
+</>
 
 )}
 
 {showPrice && (
 
+<>
+
 <div
-  style={{
-    position:"absolute",
-    top:120,
-    left:320,
+onClick={()=>setShowPrice(false)}
 
-    background:"rgba(255,255,255,0.82)",
+style={{
+position:"fixed",
+inset:0,
 
-    backdropFilter:"blur(20px)",
+background:"rgba(0,0,0,0.35)",
 
-    borderRadius:24,
+backdropFilter:"blur(8px)",
 
-    padding:10,
+zIndex:15000
+}}
+/>
 
-    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+<div
+style={{
 
-    zIndex:4000,
+position:"fixed",
 
-    display:"flex",
-    flexDirection:"column",
-    gap:6,
+left:0,
+right:0,
+bottom:0,
 
-    minWidth:200,
+background:"rgba(255,255,255,0.92)",
 
-    animation:"dropdownIn 0.18s ease",
-  }}
+backdropFilter:"blur(30px)",
+
+borderTopLeftRadius:32,
+borderTopRightRadius:32,
+
+padding:"20px 20px 30px",
+
+zIndex:16000,
+
+boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
+
+animation:"sheetUp 0.28s ease"
+}}
+>
+
+<div
+style={{
+width:46,
+height:5,
+background:"rgba(0,0,0,0.15)",
+borderRadius:999,
+margin:"0 auto 20px"
+}}
+/>
+
+<h2
+style={{
+fontSize:22,
+fontWeight:800,
+marginBottom:18
+}}
+>
+Prix
+</h2>
+
+<div
+style={{
+display:"flex",
+flexDirection:"column",
+gap:10
+}}
 >
 
 {[
-  {
-    label:"Gratuit",
-    value:"Gratuit"
-  },
+{
+label:"Gratuit",
+value:"Gratuit",
+color:"#06C167"
+},
 
-  {
-    label:"Prix social",
-    value:"Prix social"
-  },
+{
+label:"Prix social",
+value:"Prix social",
+color:"#F59E0B"
+},
 
-  {
-    label:"Peu importe",
-    value:null
-  }
+{
+label:"Peu importe",
+value:null,
+color:"#D1D5DB"
+}
 
 ].map((item,i)=>(
 
 <button
-  key={i}
+key={i}
 
-  onClick={()=>{
-    setPriceFilter(item.value)
-    setShowPrice(false)
-  }}
+onClick={()=>{
+setPriceFilter(item.value)
+setShowPrice(false)
+}}
 
-  style={{
+style={{
 
-    border:"none",
+border:"none",
 
-    background:
-      priceFilter === item.value
-      ? "rgba(91,103,159,0.14)"
-      : "transparent",
+background:
+priceFilter === item.value
+? "rgba(91,103,159,0.12)"
+: "rgba(255,255,255,0.7)",
 
-    padding:"14px 16px",
+padding:"16px 18px",
 
-    borderRadius:16,
+borderRadius:22,
 
-    textAlign:"left",
+display:"flex",
+alignItems:"center",
+gap:14,
 
-    fontSize:15,
+fontSize:16,
 
-    fontWeight:600,
+fontWeight:
+priceFilter === item.value
+? 700
+: 600,
 
-    cursor:"pointer"
-  }}
+boxShadow:
+priceFilter === item.value
+? "0 10px 24px rgba(91,103,159,0.18)"
+: "0 4px 12px rgba(0,0,0,0.06)",
+
+cursor:"pointer"
+}}
 >
 
 <div
-  style={{
-    display:"flex",
-    alignItems:"center",
-    gap:10
-  }}
->
+style={{
+width:10,
+height:10,
 
-  <div
-    style={{
-      width:10,
-      height:10,
+borderRadius:"50%",
 
-      borderRadius:"50%",
+background:item.color
+}}
+/>
 
-      background:
-
-        item.value === "Gratuit"
-        ? "#06C167"
-
-        : item.value === "Prix social"
-        ? "#F59E0B"
-
-        : "#D1D5DB"
-    }}
-  />
-
-  <span>
-    {item.label}
-  </span>
-
-</div>
+<span>
+{item.label}
+</span>
 
 </button>
 
 ))}
 
 </div>
+
+</div>
+
+</>
 
 )}
 
 {showOpen && (
 
+<>
+
 <div
-  style={{
-    position:"absolute",
-    top:120,
-    left:420,
+onClick={()=>setShowOpen(false)}
 
-    background:"rgba(255,255,255,0.82)",
+style={{
+position:"fixed",
+inset:0,
 
-    backdropFilter:"blur(20px)",
+background:"rgba(0,0,0,0.35)",
 
-    borderRadius:24,
+backdropFilter:"blur(8px)",
 
-    padding:10,
+zIndex:15000
+}}
+/>
 
-    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+<div
+style={{
 
-    zIndex:4000,
+position:"fixed",
 
-    display:"flex",
-    flexDirection:"column",
-    gap:6,
+left:0,
+right:0,
+bottom:0,
 
-    minWidth:220,
+background:"rgba(255,255,255,0.92)",
 
-    animation:"dropdownIn 0.18s ease",
-  }}
+backdropFilter:"blur(30px)",
+
+borderTopLeftRadius:32,
+borderTopRightRadius:32,
+
+padding:"20px 20px 30px",
+
+zIndex:16000,
+
+boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
+
+animation:"sheetUp 0.28s ease"
+}}
+>
+
+<div
+style={{
+width:46,
+height:5,
+background:"rgba(0,0,0,0.15)",
+borderRadius:999,
+margin:"0 auto 20px"
+}}
+/>
+
+<h2
+style={{
+fontSize:22,
+fontWeight:800,
+marginBottom:18
+}}
+>
+Ouvert
+</h2>
+
+<div
+style={{
+display:"flex",
+flexDirection:"column",
+gap:10
+}}
 >
 
 {[
-  {
-    label:"Aujourd’hui",
-    value:"Aujourd’hui"
-  },
+{
+label:"Aujourd’hui",
+value:"Aujourd’hui",
+color:"#14B8A6"
+},
 
-  {
-    label:"Demain",
-    value:"Demain"
-  },
+{
+label:"Demain",
+value:"Demain",
+color:"#0F766E"
+},
 
-  {
-    label:"Peu importe",
-    value:null
-  }
+{
+label:"Peu importe",
+value:null,
+color:"#D1D5DB"
+}
 
 ].map((item,i)=>(
 
 <button
-  key={i}
+key={i}
 
-  onClick={()=>{
-    setOpenFilter(item.value)
-    setShowOpen(false)
-  }}
+onClick={()=>{
+setOpenFilter(item.value)
+setShowOpen(false)
+}}
 
-  style={{
+style={{
 
-    border:"none",
+border:"none",
 
-    background:
-      openFilter === item.value
-      ? "rgba(91,103,159,0.14)"
-      : "transparent",
+background:
+openFilter === item.value
+? "rgba(91,103,159,0.12)"
+: "rgba(255,255,255,0.7)",
 
-    padding:"14px 16px",
+padding:"16px 18px",
 
-    borderRadius:16,
+borderRadius:22,
 
-    textAlign:"left",
+display:"flex",
+alignItems:"center",
+gap:14,
 
-    fontSize:15,
+fontSize:16,
 
-    fontWeight:600,
+fontWeight:
+openFilter === item.value
+? 700
+: 600,
 
-    cursor:"pointer"
-  }}
+boxShadow:
+openFilter === item.value
+? "0 10px 24px rgba(91,103,159,0.18)"
+: "0 4px 12px rgba(0,0,0,0.06)",
+
+cursor:"pointer"
+}}
 >
 
 <div
-  style={{
-    display:"flex",
-    alignItems:"center",
-    gap:10
-  }}
->
+style={{
+width:10,
+height:10,
 
-  <div
-    style={{
-      width:10,
-      height:10,
+borderRadius:"50%",
 
-      borderRadius:"50%",
+background:item.color
+}}
+/>
 
-      background:
-
-        item.value === "Aujourd’hui"
-        ? "#14B8A6"
-
-        : item.value === "Demain"
-        ? "#0F766E"
-
-        : "#D1D5DB"
-    }}
-  />
-
-  <span>
-    {item.label}
-  </span>
-
-</div>
+<span>
+{item.label}
+</span>
 
 </button>
 
 ))}
 
 </div>
+
+</div>
+
+</>
 
 )}
 
 {showProof && (
 
+<>
+
 <div
-  style={{
-    position:"absolute",
-    top:120,
-    left:480,
+onClick={()=>setShowProof(false)}
 
-    background:"rgba(255,255,255,0.82)",
+style={{
+position:"fixed",
+inset:0,
 
-    backdropFilter:"blur(20px)",
+background:"rgba(0,0,0,0.35)",
 
-    borderRadius:24,
+backdropFilter:"blur(8px)",
 
-    padding:10,
+zIndex:15000
+}}
+/>
 
-    boxShadow:"0 20px 40px rgba(0,0,0,0.18)",
+<div
+style={{
 
-    zIndex:4000,
+position:"fixed",
 
-    display:"flex",
-    flexDirection:"column",
-    gap:6,
+left:0,
+right:0,
+bottom:0,
 
-    minWidth:240,
+background:"rgba(255,255,255,0.92)",
 
-    animation:"dropdownIn 0.18s ease",
-  }}
+backdropFilter:"blur(30px)",
+
+borderTopLeftRadius:32,
+borderTopRightRadius:32,
+
+padding:"20px 20px 30px",
+
+zIndex:16000,
+
+boxShadow:"0 -10px 40px rgba(0,0,0,0.18)",
+
+animation:"sheetUp 0.28s ease"
+}}
+>
+
+<div
+style={{
+width:46,
+height:5,
+background:"rgba(0,0,0,0.15)",
+borderRadius:999,
+margin:"0 auto 20px"
+}}
+/>
+
+<h2
+style={{
+fontSize:22,
+fontWeight:800,
+marginBottom:18
+}}
+>
+Justificatif
+</h2>
+
+<div
+style={{
+display:"flex",
+flexDirection:"column",
+gap:10
+}}
 >
 
 {[
-  {
-    label:"Sans justificatif",
-    value:"Sans justificatif"
-  },
+{
+label:"Sans justificatif",
+value:"Sans justificatif",
+color:"#8B9AD9"
+},
 
-  {
-    label:"Avec justificatif",
-    value:"Avec justificatif"
-  },
+{
+label:"Avec justificatif",
+value:"Avec justificatif",
+color:"#5B679F"
+},
 
-  {
-    label:"Peu importe",
-    value:null
-  }
+{
+label:"Peu importe",
+value:null,
+color:"#D1D5DB"
+}
 
 ].map((item,i)=>(
 
 <button
-  key={i}
+key={i}
 
-  onClick={()=>{
-    setProofFilter(item.value)
-    setShowProof(false)
-  }}
+onClick={()=>{
+setProofFilter(item.value)
+setShowProof(false)
+}}
 
-  style={{
+style={{
 
-    border:"none",
+border:"none",
 
-    background:
-      proofFilter === item.value
-      ? "rgba(91,103,159,0.14)"
-      : "transparent",
+background:
+proofFilter === item.value
+? "rgba(91,103,159,0.12)"
+: "rgba(255,255,255,0.7)",
 
-    padding:"14px 16px",
+padding:"16px 18px",
 
-    borderRadius:16,
+borderRadius:22,
 
-    textAlign:"left",
+display:"flex",
+alignItems:"center",
+gap:14,
 
-    fontSize:15,
+fontSize:16,
 
-    fontWeight:600,
+fontWeight:
+proofFilter === item.value
+? 700
+: 600,
 
-    cursor:"pointer"
-  }}
+boxShadow:
+proofFilter === item.value
+? "0 10px 24px rgba(91,103,159,0.18)"
+: "0 4px 12px rgba(0,0,0,0.06)",
+
+cursor:"pointer"
+}}
 >
 
 <div
-  style={{
-    display:"flex",
-    alignItems:"center",
-    gap:10
-  }}
->
+style={{
+width:10,
+height:10,
 
-  <div
-    style={{
-      width:10,
-      height:10,
+borderRadius:"50%",
 
-      borderRadius:"50%",
+background:item.color
+}}
+/>
 
-      background:
-
-        item.value === "Sans justificatif"
-        ? "#8B9AD9"
-
-        : item.value === "Avec justificatif"
-        ? "#5B679F"
-
-        : "#D1D5DB"
-    }}
-  />
-
-  <span>
-    {item.label}
-  </span>
-
-</div>
+<span>
+{item.label}
+</span>
 
 </button>
 
 ))}
 
 </div>
+
+</div>
+
+</>
 
 )}
 
