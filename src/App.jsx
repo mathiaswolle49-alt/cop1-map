@@ -10,7 +10,7 @@ import BottomNav from "./components/BottomNav"
 
 function App(){
 
-const [page,setPage] = useState("map")
+const [page,setPage] = useState("info")
 const [user,setUser] = useState(null)
 
 const [showAdmin,setShowAdmin] = useState(false)
