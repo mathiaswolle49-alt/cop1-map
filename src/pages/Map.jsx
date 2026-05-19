@@ -2493,7 +2493,8 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
                 marginTop:4,
                 fontSize:15,
                 opacity:0.92,
-                fontWeight:700
+                fontWeight:700,
+                color:"#8B9AD9"
               }}
             >
               {openedPlace.category}
@@ -2518,42 +2519,190 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
     </div>
 
-    {/* INFOS IMPORTANTES */}
+{/* INFOS IMPORTANTES */}
+<div
+  style={{
+    display:"flex",
+    flexDirection:"column",
+    gap:12,
+    marginBottom:30
+  }}
+>
+
+ {/* OUVERT */}
+<div
+  style={{
+
+    display:"flex",
+    flexDirection:"column",
+    gap:4,
+
+    padding:"14px 16px",
+
+    borderRadius:20,
+
+    background:"rgba(255,255,255,0.55)",
+
+    backdropFilter:"blur(14px)",
+
+    border:"1px solid rgba(255,255,255,0.4)"
+  }}
+>
+
+  <div
+    style={{
+      display:"flex",
+      alignItems:"center",
+      gap:10
+    }}
+  >
+
+    <span
+      style={{
+        fontSize:16
+      }}
+    >
+      🕒
+    </span>
+
+    <span
+      style={{
+        fontWeight:600,
+        fontSize:15,
+        color:"#444"
+      }}
+    >
+      {openedPlace.open || "Horaires non renseignés"}
+    </span>
+
+  </div>
+
+  <div
+    style={{
+      marginLeft:26,
+
+      fontSize:13,
+
+      fontWeight:600,
+
+      color:
+        openedPlace.open_now
+        ? "#14B8A6"
+        : "#DC2626"
+    }}
+  >
+    {openedPlace.open_now
+      ? "Ouvert actuellement"
+      : "Actuellement fermé"}
+  </div>
+
+</div>
+
+  {/* PRIX */}
+  <div
+    style={{
+
+      display:"flex",
+      alignItems:"center",
+      gap:12,
+
+      padding:"14px 16px",
+
+      borderRadius:20,
+
+      background:
+  openedPlace.price === "Gratuit"
+  ? "rgba(6,193,103,0.10)"
+  : "rgba(245,158,11,0.10)",
+
+      backdropFilter:"blur(14px)",
+
+      border:"1px solid rgba(255,255,255,0.4)"
+    }}
+  >
+
     <div
       style={{
+        width:10,
+        height:10,
+
+        borderRadius:"50%",
+
+        background:
+          openedPlace.price === "Gratuit"
+          ? "#06C167"
+          : "#F59E0B",
+
+        flexShrink:0
+      }}
+    />
+
+    <div
+      style={{
+        fontWeight:600,
+        fontSize:15
+      }}
+    >
+      {openedPlace.price || "Gratuit"}
+    </div>
+
+  </div>
+
+  {/* JUSTIFICATIF */}
+  {openedPlace.proof && (
+
+    <div
+      style={{
+
         display:"flex",
-        flexDirection:"column",
+        alignItems:"center",
         gap:12,
-        marginBottom:28
+
+        padding:"14px 16px",
+
+        borderRadius:20,
+
+        background:
+  openedPlace.proof === "Sans justificatif"
+  ? "rgba(139,154,217,0.10)"
+  : "rgba(91,103,159,0.10)",
+
+        backdropFilter:"blur(14px)",
+
+        border:"1px solid rgba(255,255,255,0.4)"
       }}
     >
 
       <div
         style={{
-          fontSize:16,
-          fontWeight:700
+          width:10,
+          height:10,
+
+          borderRadius:"50%",
+
+          background:
+            openedPlace.proof === "Sans justificatif"
+            ? "#8B9AD9"
+            : "#5B679F",
+
+          flexShrink:0
         }}
-      >
-        ● Ouvert actuellement
-      </div>
+      />
 
       <div
         style={{
-          fontSize:16
+          fontWeight:600,
+          fontSize:15
         }}
       >
-        🕒 {openedPlace.horaires || "Horaires non renseignés"}
-      </div>
-
-      <div
-        style={{
-          fontSize:16
-        }}
-      >
-         {openedPlace.price || "Gratuit"}
+        {openedPlace.proof}
       </div>
 
     </div>
+
+  )}
+
+</div>
 
     {/* SÉPARATEUR */}
     <div
@@ -2573,11 +2722,11 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
       <div
         style={{
-          fontSize:13,
-          fontWeight:700,
-          color:"#777",
-          marginBottom:10,
-          letterSpacing:1
+          fontSize:15,
+fontWeight:800,
+color:"#666",
+marginBottom:16,
+letterSpacing:1.2
         }}
       >
         ADRESSE
@@ -2611,14 +2760,17 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       }}
     >
 
-      <h2
-        style={{
-          fontSize:24,
-          marginBottom:14
-        }}
-      >
-        À propos
-      </h2>
+      <div
+  style={{
+    fontSize:15,
+fontWeight:800,
+color:"#666",
+marginBottom:16,
+letterSpacing:1.2
+  }}
+>
+  À PROPOS
+</div>
 
       <p
         style={{
@@ -2632,21 +2784,173 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
 
     </div>
 
-    {/* INFOS COMPLÉMENTAIRES */}
+<div
+  style={{
+    height:1,
+    background:"rgba(0,0,0,0.08)",
+    marginBottom:24
+  }}
+/>
+
+{/* CONTACT */}
+<div
+  style={{
+    marginBottom:28
+  }}
+>
+
+  <div
+    style={{
+      fontSize:15,
+fontWeight:800,
+color:"#666",
+marginBottom:16,
+letterSpacing:1.2
+    }}
+  >
+    CONTACT
+  </div>
+
+  <div
+    style={{
+      display:"flex",
+      flexDirection:"column",
+      gap:12
+    }}
+  >
+
+    {/* TÉLÉPHONE */}
+    {openedPlace.phone && (
+
+      <a
+        href={`tel:${openedPlace.phone}`}
+
+        style={{
+          textDecoration:"none",
+          color:"inherit"
+        }}
+      >
+
+        <div
+          style={{
+            background:"rgba(255,255,255,0.55)",
+
+            padding:"16px",
+
+            borderRadius:20,
+
+            display:"flex",
+            alignItems:"center",
+            gap:12
+          }}
+        >
+
+          <div
+            style={{
+              width:10,
+              height:10,
+              borderRadius:"50%",
+              background:"#14B8A6",
+              flexShrink:0
+            }}
+          />
+
+          <span
+            style={{
+              fontWeight:600
+            }}
+          >
+            📞 {openedPlace.phone}
+          </span>
+
+        </div>
+
+      </a>
+
+    )}
+
+    {/* SITE */}
+    {openedPlace.website && (
+
+      <a
+        href={openedPlace.website}
+        target="_blank"
+        rel="noreferrer"
+
+        style={{
+          textDecoration:"none",
+          color:"inherit"
+        }}
+      >
+
+        <div
+          style={{
+            background:"rgba(255,255,255,0.55)",
+
+            padding:"16px",
+
+            borderRadius:20,
+
+            display:"flex",
+            alignItems:"center",
+            gap:12
+          }}
+        >
+
+          <div
+            style={{
+              width:10,
+              height:10,
+              borderRadius:"50%",
+              background:"#8B9AD9",
+              flexShrink:0
+            }}
+          />
+
+          <span
+            style={{
+              fontWeight:600
+            }}
+          >
+            🌐 Site web
+          </span>
+
+        </div>
+
+      </a>
+
+    )}
+
+  </div>
+
+</div>
+
+<div
+  style={{
+    height:1,
+    background:"rgba(0,0,0,0.08)",
+    marginBottom:24
+  }}
+/>
+
+    {/* INFOS SUPPLÉMENTAIRES */}
     <div
       style={{
         marginBottom:120
       }}
     >
 
-      <h2
-        style={{
-          fontSize:24,
-          marginBottom:18
-        }}
-      >
-        Informations utiles
-      </h2>
+      <div
+  style={{
+    fontSize:15,
+    fontWeight:800,
+    color:"#666",
+    marginBottom:16,
+    letterSpacing:1.2
+  }}
+>
+  INFOS SUPPLÉMENTAIRES
+</div>
 
       <div
         style={{
@@ -2657,24 +2961,37 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
       >
 
         <div
-          style={{
-            background:"rgba(255,255,255,0.55)",
-            padding:"16px",
-            borderRadius:20
-          }}
-        >
-          ● {openedPlace.justificatif || "Aucun justificatif"}
-        </div>
+  style={{
+    background:"rgba(255,255,255,0.55)",
+    padding:"16px",
+    borderRadius:20,
 
-        <div
-          style={{
-            background:"rgba(255,255,255,0.55)",
-            padding:"16px",
-            borderRadius:20
-          }}
-        >
-          ✨ {openedPlace.plus || "Lieu recommandé"}
-        </div>
+    display:"flex",
+    alignItems:"center",
+    gap:10
+  }}
+>
+
+  <div
+    style={{
+      width:10,
+      height:10,
+      borderRadius:"50%",
+      background:"#F5C451",
+      flexShrink:0
+    }}
+  />
+
+  <span
+    style={{
+      fontWeight:600,
+      color:"#7A5B00"
+    }}
+  >
+    {openedPlace.extra_info || "Aucune information supplémentaire"}
+  </span>
+
+</div>
 
       </div>
 
@@ -2706,29 +3023,25 @@ boxShadow:"0 6px 18px rgba(0,0,0,0.25)"
     >
 
       {/* ÉTAT */}
-      <div>
+<div>
 
-        <div
-          style={{
-            color:"#06c167",
-            fontWeight:800,
-            fontSize:15
-          }}
-        >
-          ● Ouvert actuellement
-        </div>
+  <div
+    style={{
+      color:
+        openedPlace.open_now
+        ? "#14B8A6"
+        : "#DC2626",
 
-        <div
-          style={{
-            color:"#666",
-            fontSize:13,
-            marginTop:2
-          }}
-        >
-          Jusqu’à 20h00
-        </div>
+      fontWeight:800,
+      fontSize:15
+    }}
+  >
+    {openedPlace.open_now
+      ? "● Ouvert actuellement"
+      : "● Actuellement fermé"}
+  </div>
 
-      </div>
+</div>
 
       {/* BOUTON */}
       <button
